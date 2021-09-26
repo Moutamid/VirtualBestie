@@ -35,6 +35,7 @@ public class StoriesActivity extends AppCompatActivity {
                 b.currentText.setText(mobileArray[i]);
                 isShown = true;
                 b.mobileList.setVisibility(View.GONE);
+                b.topLayoutBottomActivity.setVisibility(View.GONE);
                 b.currentText.setVisibility(View.VISIBLE);
                 b.backImg.setVisibility(View.VISIBLE);
             }
@@ -45,14 +46,14 @@ public class StoriesActivity extends AppCompatActivity {
     private boolean isShown = false;
 
     @Override
-    protected void onDestroy() {
-
+    public void onBackPressed() {
         if (isShown) {
             isShown = false;
             b.mobileList.setVisibility(View.VISIBLE);
+            b.topLayoutBottomActivity.setVisibility(View.VISIBLE);
             b.currentText.setVisibility(View.GONE);
             b.backImg.setVisibility(View.GONE);
 
-        } else super.onDestroy();
+        } else super.onBackPressed();
     }
 }

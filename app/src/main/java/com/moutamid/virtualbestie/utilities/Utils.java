@@ -330,8 +330,8 @@ public class Utils {
 
     }
 
-    public static void showSuicidalDialog() {
-        new AlertDialog.Builder(instance)
+    public static void showSuicidalDialog(Context cont) {
+        new AlertDialog.Builder(cont)
                 .setTitle("Are you suicidal!!?")
                 .setMessage("Please contact on any of the following details to help you out!\n\nContact info: +1 (xxx) xxx-xxxx")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -343,8 +343,8 @@ public class Utils {
                 .show();
     }
 
-    public static void showDialog(String message, DialogInterface.OnClickListener positiveListener) {
-        new AlertDialog.Builder(instance)
+    public static void showDialog(Context cont,String message, DialogInterface.OnClickListener positiveListener) {
+        new AlertDialog.Builder(cont)
                 .setTitle("Result!")
                 .setMessage(message)
                 .setPositiveButton("OK", positiveListener)

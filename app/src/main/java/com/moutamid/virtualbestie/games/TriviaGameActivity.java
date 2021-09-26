@@ -89,7 +89,7 @@ public class TriviaGameActivity extends AppCompatActivity {
             @Override
             public void onStackEmpty() {
 
-                Utils.showDialog("You got " + counter + " right out of " + quizArrayList.size() + ". Thanks for playing.", new DialogInterface.OnClickListener() {
+                Utils.showDialog(context,"You got " + counter + " right out of " + quizArrayList.size() + ". Thanks for playing.", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Utils.clickSound();

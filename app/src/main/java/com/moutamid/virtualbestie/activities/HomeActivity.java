@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
         b = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
 
-        if (!Utils.getBoolean(Constants.IS_LOGGED_IN, false)){
+        if (!Utils.getBoolean(Constants.IS_LOGGED_IN, false)) {
             //USER IS NOT LOGGED IN
             finish();
             startActivity(new Intent(context, MainActivity.class));
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
 
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                Utils.showSuicidalDialog();
+                                Utils.showSuicidalDialog(context);
                             }
 
                             @Override
@@ -71,6 +71,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(context, GamesListActivity.class));
+            }
+        });
+
+        b.storiesCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, StoriesActivity.class));
             }
         });
 
