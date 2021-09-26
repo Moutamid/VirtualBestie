@@ -88,9 +88,9 @@
 
                 <net.colindodd.gradientlayout.GradientRelativeLayout
                     style="@style/gamesListLayout"
-                    gl:end_color="#fe661b"
+                    gl:end_color="@color/orangee"
                     gl:orientation="LEFT_RIGHT"
-                    gl:start_color="#fda729">
+                    gl:start_color="@color/lightYelllow">
 
                     <LinearLayout style="@style/gamesListLinearLayout"
                         android:layout_toStartOf="@+id/aaaa">
@@ -122,9 +122,9 @@
 
                 <net.colindodd.gradientlayout.GradientRelativeLayout
                     style="@style/gamesListLayout"
-                    gl:end_color="#f8a03f"
+                    gl:end_color="@color/otherOrangeeee"
                     gl:orientation="LEFT_RIGHT"
-                    gl:start_color="#fe7668">
+                    gl:start_color="@color/pinkee">
 
                     <LinearLayout
                         android:layout_toStartOf="@id/aaaaa"
@@ -158,9 +158,9 @@
 
                 <net.colindodd.gradientlayout.GradientRelativeLayout
                     style="@style/gamesListLayout"
-                    gl:end_color="#3068da"
+                    gl:end_color="@color/blueeee"
                     gl:orientation="LEFT_RIGHT"
-                    gl:start_color="#1cd29c">
+                    gl:start_color="@color/magentaaaa">
 
                     <LinearLayout style="@style/gamesListLinearLayout"
                         android:layout_toStartOf="@id/aaaaaa">

@@ -187,6 +187,13 @@
     <color name="mediumblue">#0000cd</color>
     <color name="navy">#000080</color>
 
+    <color name="orangee">#FE661B</color>
+    <color name="lightYelllow">#FDA729</color>
+    <color name="otherOrangeeee">#f8a03f</color>
+    <color name="pinkee">#fe7668</color>
+    <color name="blueeee">#3068da</color>
+    <color name="magentaaaa">#1cd29c</color>
+
     <color name="gradientOrange">#FF416C</color>
     <color name="gradientViolet">#8A52E9</color>
     <color name="gradientLightYellow">#FFA72F</color>
@@ -196,5 +203,7 @@
     <color name="gradientOrange3">#F7A23C</color>
     <color name="gradientLightBlue">#376DF6</color>
     <color name="gradientLightGreen">#21E8AC</color>
+
+
 
 </resources>
