@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.moutamid.virtualbestie.R;
 
 public class TicTacToeGameActivity extends AppCompatActivity {
@@ -87,7 +88,7 @@ public class TicTacToeGameActivity extends AppCompatActivity {
 
     public void playGameAgain(View view) {
 
-        Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
+        MaterialButton playAgainButton = findViewById(R.id.playAgainButton);
 
         TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
 

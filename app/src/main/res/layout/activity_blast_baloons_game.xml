@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".games.BlastBaloonsGameActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.4"
+        android:layout_height="match_parent"
+        android:src="@drawable/img_6" />
 
     <ImageView
         android:id="@+id/baloon1"

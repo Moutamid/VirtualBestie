@@ -21,7 +21,7 @@
                 android:layout_height="150dp"
                 android:id="@+id/balloonLottie"
                 android:layout_centerInParent="true"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="balloon.json"
                 app:lottie_loop="true"
                 app:lottie_speed="1.25" />
@@ -31,7 +31,7 @@
                 android:id="@+id/jumpLottie"
                 android:layout_height="150dp"
                 android:layout_centerInParent="true"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="jumpthroughhoops.json"
                 app:lottie_loop="true"
                 app:lottie_speed="1.25" />
@@ -41,7 +41,7 @@
                 android:id="@+id/geometryLottie"
                 android:layout_height="150dp"
                 android:layout_centerInParent="true"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="geometryhouse.json"
                 app:lottie_loop="true"
                 app:lottie_speed="1.25" />
@@ -51,7 +51,7 @@
                 android:layout_height="150dp"
                 android:id="@+id/orangeLottie"
                 android:layout_centerInParent="true"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="orangecircle.json"
                 app:lottie_loop="true"
                 app:lottie_speed="1.25" />

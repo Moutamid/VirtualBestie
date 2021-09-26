@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".games.TicTacToeGameActivity">
 
+
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="395dp"
@@ -117,21 +119,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="66dp"
             android:text="TextView"
             android:textSize="18sp"
             android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/playAgainButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="48dp"
-            android:onClick="playGameAgain"
-            android:text="Play again"
-            android:visibility="invisible" />
-
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/playAgainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="playGameAgain"
+        android:text="    Play again    "
+        android:visibility="invisible"
+        app:backgroundTint="@color/black"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

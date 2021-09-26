@@ -44,7 +44,7 @@ public class DifferentObjectsGameActivity extends AppCompatActivity {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
 
-                case MotionEvent.ACTION_MOVE:
+//                case MotionEvent.ACTION_MOVE:
                     // touch down code
                     lottieAnimationView.playAnimation();
                     break;

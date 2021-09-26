@@ -28,15 +28,15 @@ public class BlastBaloonsGameActivity extends AppCompatActivity {
 
         blastview = Blastview.attach2Window(this);
 
-        YoYo.with(Techniques.Shake).delay(1000).duration(1000).repeat(5).playOn(b.baloon1);
-        YoYo.with(Techniques.Wobble).delay(500).duration(1000).repeat(5).playOn(b.baloon2);
-        YoYo.with(Techniques.Swing).delay(1300).duration(1000).repeat(5).playOn(b.baloon3);
-        YoYo.with(Techniques.Tada).delay(1500).duration(1000).repeat(5).playOn(b.baloon4);
-        YoYo.with(Techniques.ZoomInDown).delay(200).duration(1000).repeat(5).playOn(b.baloon5);
-        YoYo.with(Techniques.ZoomInLeft).delay(1000).duration(1000).repeat(5).playOn(b.baloon6);
-        YoYo.with(Techniques.ZoomInRight).delay(2000).duration(1000).repeat(5).playOn(b.baloon7);
-        YoYo.with(Techniques.DropOut).delay(800).duration(1000).repeat(5).playOn(b.baloon8);
-        YoYo.with(Techniques.Flash).delay(1600).duration(1000).repeat(5).playOn(b.baloon9);
+        YoYo.with(Techniques.Shake).delay(1000).duration(5000).repeat(15).playOn(b.baloon1);
+        YoYo.with(Techniques.Wobble).delay(500).duration(5000).repeat(15).playOn(b.baloon2);
+        YoYo.with(Techniques.Swing).delay(1300).duration(5000).repeat(15).playOn(b.baloon3);
+        YoYo.with(Techniques.Tada).delay(1500).duration(5000).repeat(15).playOn(b.baloon4);
+        YoYo.with(Techniques.ZoomInDown).delay(200).duration(5000).repeat(15).playOn(b.baloon5);
+        YoYo.with(Techniques.ZoomInLeft).delay(1000).duration(5000).repeat(15).playOn(b.baloon6);
+        YoYo.with(Techniques.ZoomInRight).delay(2000).duration(5000).repeat(15).playOn(b.baloon7);
+        YoYo.with(Techniques.Flash).delay(800).duration(5000).repeat(15).playOn(b.baloon8);
+        YoYo.with(Techniques.Flash).delay(1600).duration(5000).repeat(15).playOn(b.baloon9);
 
     }
 

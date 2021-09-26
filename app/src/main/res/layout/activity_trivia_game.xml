@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/img_3"
     android:clipChildren="false"
     tools:context=".games.TriviaGameActivity">
 
@@ -11,8 +12,20 @@
         android:id="@+id/swipeStack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:padding="@dimen/padding_swipestack"
         app:stack_rotation="10"
         app:stack_size="3" />
+
+    <TextView
+        android:id="@+id/counterText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="10/120"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

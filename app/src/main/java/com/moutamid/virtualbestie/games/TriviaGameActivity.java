@@ -30,7 +30,6 @@ public class TriviaGameActivity extends AppCompatActivity {
     //<div class="desc"><div>
 
 
-
     private ActivityTriviaGameBinding b;
 
     private ArrayList<Quiz> quizArrayList;
@@ -45,6 +44,7 @@ public class TriviaGameActivity extends AppCompatActivity {
 
         quizArrayList = new ArrayList<>(Utils.quizArrayList());
 
+        b.counterText.setText(counter + "");
 
         SwipeStack swipeStack = (SwipeStack) findViewById(R.id.swipeStack);
         swipeStack.setAdapter(new SwipeStackAdapter(quizArrayList));
@@ -62,6 +62,8 @@ public class TriviaGameActivity extends AppCompatActivity {
                 } else {
                     Utils.showWorkDoneDialog(context);
                     counter++;
+                    b.counterText.setText(counter + "");
+
                 }
 
             }
@@ -76,6 +78,8 @@ public class TriviaGameActivity extends AppCompatActivity {
                     // IF ANSWER IS TRUE
                     Utils.showWorkDoneDialog(context);
                     counter++;
+                    b.counterText.setText(counter + "");
+
                 } else {
                     Utils.showOfflineDialog(context);
                 }
