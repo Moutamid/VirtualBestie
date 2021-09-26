@@ -61,7 +61,7 @@ public class GamesListActivity extends AppCompatActivity {
         b.triviaCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(context, DifferentObjectsGameActivity.class));
+                startActivity(new Intent(context, TriviaGameActivity.class));
                 Utils.clickSound();
 
             }

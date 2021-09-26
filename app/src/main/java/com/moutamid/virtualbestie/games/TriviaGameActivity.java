@@ -2,6 +2,7 @@ package com.moutamid.virtualbestie.games;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,14 @@ import java.util.List;
 import link.fls.swipestack.SwipeStack;
 
 public class TriviaGameActivity extends AppCompatActivity {
+    private static final String TAG = "TriviaGameActivity";
+    private Context context = TriviaGameActivity.this;
+
+    // class="wq-question-title">
+    //</h4>
+    //<div class="desc"><div>
+
+
 
     private ActivityTriviaGameBinding b;
 
@@ -49,9 +58,9 @@ public class TriviaGameActivity extends AppCompatActivity {
 
                 if (quizArrayList.get(position).isAnswer()) {
                     // IF ANSWER IS TRUE
-                    Utils.showOfflineDialog();
+                    Utils.showOfflineDialog(context);
                 } else {
-                    Utils.showWorkDoneDialog();
+                    Utils.showWorkDoneDialog(context);
                     counter++;
                 }
 
@@ -65,10 +74,10 @@ public class TriviaGameActivity extends AppCompatActivity {
 
                 if (quizArrayList.get(position).isAnswer()) {
                     // IF ANSWER IS TRUE
-                    Utils.showWorkDoneDialog();
+                    Utils.showWorkDoneDialog(context);
                     counter++;
                 } else {
-                    Utils.showOfflineDialog();
+                    Utils.showOfflineDialog(context);
                 }
 
             }
@@ -92,7 +101,7 @@ public class TriviaGameActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Utils.showDialog1();
+                Utils.showDialog1(TriviaGameActivity.this);
             }
         }, 1000);
 

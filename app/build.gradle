@@ -50,6 +50,8 @@ dependencies {
 
     implementation 'link.fls:swipestack:0.3.0'
 
+    implementation 'tyrantgit:explosionfield:1.0.1'
+
 //    implementation 'com.github.Kunalapk:Blastview:1.0'
 
 //    implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
