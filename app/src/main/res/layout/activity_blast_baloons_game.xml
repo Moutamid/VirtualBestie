@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".games.BlastBaloonsGameActivity">
+
+
+    <ImageView
+        android:id="@+id/baloon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon1" />
+
+    <ImageView
+        android:id="@+id/baloon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="500dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon2" />
+
+    <ImageView
+        android:id="@+id/baloon3"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="70dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon3" />
+
+    <ImageView
+        android:id="@+id/baloon4"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="70dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon4" />
+
+    <ImageView
+        android:id="@+id/baloon5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="60dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon5" />
+
+    <ImageView
+        android:id="@+id/baloon6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon6" />
+
+    <ImageView
+        android:id="@+id/baloon7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="500dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon7" />
+
+    <ImageView
+        android:id="@+id/baloon8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="30dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon8" />
+
+    <ImageView
+        android:id="@+id/baloon9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="40dp"
+        android:onClick="BaloonClicked"
+        android:src="@drawable/balloon9" />
+
+</RelativeLayout>

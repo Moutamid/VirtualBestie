@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".games.GamesListActivity">
+
+    <LinearLayout
+        android:id="@+id/topLayoutGamesList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
+            android:text="Relaxation Games"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
+            android:text="A collection of some casual, simple and easy to games"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topLayoutGamesList"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/gamesListCardView"
+                app:cardBackgroundColor="@color/white"
+                android:id="@+id/ticTacToeCardView"
+                app:cardCornerRadius="@dimen/cardCornerRadius">
+
+                <net.colindodd.gradientlayout.GradientRelativeLayout
+                    style="@style/gamesListLayout"
+                    gl:end_color="@color/gradientViolet"
+                    gl:orientation="LEFT_RIGHT"
+                    gl:start_color="@color/gradientOrange">
+
+                    <LinearLayout style="@style/gamesListLinearLayout"
+                        android:layout_toStartOf="@id/aaa">
+
+                        <TextView
+                            style="@style/gamesListTitle"
+                            android:text="Tic Tac Toe" />
+
+                        <TextView
+                            style="@style/gamesListDesc"
+                            android:text="This classic game contributes to children's developmental growth in numerous ways" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/aaa"
+                        style="@style/gamesListImage"
+                        android:src="@drawable/tictactoe" />
+
+                </net.colindodd.gradientlayout.GradientRelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/gamesListCardView"
+                android:id="@+id/balloonCardView"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/cardCornerRadius">
+
+                <net.colindodd.gradientlayout.GradientRelativeLayout
+                    style="@style/gamesListLayout"
+                    gl:end_color="#fe661b"
+                    gl:orientation="LEFT_RIGHT"
+                    gl:start_color="#fda729">
+
+                    <LinearLayout style="@style/gamesListLinearLayout"
+                        android:layout_toStartOf="@+id/aaaa">
+
+                        <TextView
+                            style="@style/gamesListTitle"
+                            android:text="Baloon" />
+
+                        <TextView
+                            style="@style/gamesListDesc"
+                            android:text="Party City has balloons of all shapes and sizes, as well as helium tanks and other accessories." />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/aaaa"
+                        style="@style/gamesListImage"
+                        android:src="@drawable/balloon1" />
+
+                </net.colindodd.gradientlayout.GradientRelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/gamesListCardView"
+                android:id="@+id/objectsCardView"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/cardCornerRadius">
+
+                <net.colindodd.gradientlayout.GradientRelativeLayout
+                    style="@style/gamesListLayout"
+                    gl:end_color="#f8a03f"
+                    gl:orientation="LEFT_RIGHT"
+                    gl:start_color="#fe7668">
+
+                    <LinearLayout
+                        android:layout_toStartOf="@id/aaaaa"
+                        style="@style/gamesListLinearLayout">
+
+                        <TextView
+                            style="@style/gamesListTitle"
+                            android:text="Different Objects" />
+
+                        <TextView
+                            style="@style/gamesListDesc"
+                            android:text="Focuses on the process of creating motion and shape change illusion" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/aaaaa"
+                        style="@style/gamesListImage"
+                        android:src="@drawable/fast" />
+
+                </net.colindodd.gradientlayout.GradientRelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/gamesListCardView"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/triviaCardView"
+                app:cardCornerRadius="@dimen/cardCornerRadius">
+
+                <net.colindodd.gradientlayout.GradientRelativeLayout
+                    style="@style/gamesListLayout"
+                    gl:end_color="#3068da"
+                    gl:orientation="LEFT_RIGHT"
+                    gl:start_color="#1cd29c">
+
+                    <LinearLayout style="@style/gamesListLinearLayout"
+                        android:layout_toStartOf="@id/aaaaaa">
+
+                        <TextView
+                            style="@style/gamesListTitle"
+                            android:text="Trivia Game" />
+
+                        <TextView
+                            style="@style/gamesListDesc"
+                            android:text="A simple game asking True/False questions." />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/aaaaaa"
+                        style="@style/gamesListImage"
+                        android:src="@drawable/quiz" />
+
+                </net.colindodd.gradientlayout.GradientRelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
