@@ -330,6 +330,19 @@ public class Utils {
 
     }
 
+    public static void showSuicidalDialog() {
+        new AlertDialog.Builder(instance)
+                .setTitle("Are you suicidal!!?")
+                .setMessage("Please contact on any of the following details to help you out!\n\nContact info: +1 (xxx) xxx-xxxx")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
+    }
+
     public static void showDialog(String message, DialogInterface.OnClickListener positiveListener) {
         new AlertDialog.Builder(instance)
                 .setTitle("Result!")
@@ -338,7 +351,7 @@ public class Utils {
                 .show();
     }
 
-    public static void showDialog1(Context contex) {
+    public static void showTriviaHelpDialog(Context contex) {
 
         new AlertDialog.Builder(contex)
                 .setTitle("How to play the game?")

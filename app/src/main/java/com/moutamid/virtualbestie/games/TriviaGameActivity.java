@@ -105,7 +105,7 @@ public class TriviaGameActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Utils.showDialog1(TriviaGameActivity.this);
+                Utils.showTriviaHelpDialog(TriviaGameActivity.this);
             }
         }, 1000);
 

@@ -18,7 +18,7 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:id="@+id/balloonLottie"
                 android:layout_centerInParent="true"
                 app:lottie_autoPlay="false"
@@ -29,7 +29,7 @@
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
                 android:id="@+id/jumpLottie"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 app:lottie_autoPlay="false"
                 app:lottie_fileName="jumpthroughhoops.json"
@@ -39,7 +39,7 @@
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
                 android:id="@+id/geometryLottie"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 app:lottie_autoPlay="false"
                 app:lottie_fileName="geometryhouse.json"
@@ -48,7 +48,7 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:id="@+id/orangeLottie"
                 android:layout_centerInParent="true"
                 app:lottie_autoPlay="false"

@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VirtualBestie">
         <activity
+            android:name=".activities.StoriesActivity"
+            android:exported="true" />
+        <activity
             android:name=".games.TriviaGameActivity"
             android:exported="true" />
         <activity

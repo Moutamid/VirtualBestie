@@ -3,6 +3,7 @@ package com.moutamid.virtualbestie.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,27 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 YoYo.with(Techniques.Tada)
                         .duration(700)
+                        .withListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                Utils.showSuicidalDialog();
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animator) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animator) {
+
+                            }
+                        })
                         .playOn(b.animator);
             }
         });
