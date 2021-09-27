@@ -270,8 +270,8 @@ public class Utils {
 //        return new ArrayList<>(set);
 //    }
 
-    public String getRandomNmbr(int length) {
-        return String.valueOf(new Random().nextInt(length) + 1);
+    public static String getRandomNmbr(int length) {
+        return String.valueOf(new Random().nextInt(length));
     }
 
     public static void showOfflineDialog(Context con) {
