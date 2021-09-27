@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.moutamid.virtualbestie.R;
 import com.moutamid.virtualbestie.databinding.ActivityTriviaGameBinding;
 import com.moutamid.virtualbestie.models.Quiz;
+import com.moutamid.virtualbestie.utilities.Constants;
 import com.moutamid.virtualbestie.utilities.Utils;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TriviaGameActivity extends AppCompatActivity {
         b = ActivityTriviaGameBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
 
-        quizArrayList = new ArrayList<>(Utils.quizArrayList());
+        quizArrayList = new ArrayList<>(Constants.quizArrayList());
 
         b.counterText.setText(counter + "");
 
@@ -89,7 +90,7 @@ public class TriviaGameActivity extends AppCompatActivity {
             @Override
             public void onStackEmpty() {
 
-                Utils.showDialog(context,"You got " + counter + " right out of " + quizArrayList.size() + ". Thanks for playing.", new DialogInterface.OnClickListener() {
+                Utils.showDialog(context, "You got " + counter + " right out of " + quizArrayList.size() + ". Thanks for playing.", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Utils.clickSound();

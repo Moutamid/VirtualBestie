@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.moutamid.virtualbestie.R;
 import com.moutamid.virtualbestie.databinding.ActivityStoriesBinding;
+import com.moutamid.virtualbestie.utilities.Constants;
+import com.moutamid.virtualbestie.utilities.Utils;
 
 public class StoriesActivity extends AppCompatActivity {
     private ActivityStoriesBinding b;
 
-    String[] mobileArray = {"Android", "IPhone", "WindowsMobile", "Blackberry",
-            "WebOS", "Ubuntu", "Windows7", "Max OS X"};
+    private String storiesSuffix = "\n\nREFERENCE:\n" +
+            "\n" +
+            "https://l.messenger.com/l.php?u=https%3A%2F%2Fwww.beyondblue.org.au%2Fwho-does-it-affect%2Fpersonal-stories%3Fcategory%3D8e783b15-0e60-4281-8548-a2ac69988baf&h=AT2uX_7z1s-xZ4WLd-nS1DrDVcDIxR4ULC2lhxhr91vdeCXhKyVMDLPo7iqyzVh8CH5m4iHbhOD7wydypjUtoMSDRWvGSSfeLSVkTtEmfaI6m5M3skC4keaPUI9BGxtVhmZ5pA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +26,16 @@ public class StoriesActivity extends AppCompatActivity {
         setContentView(b.getRoot());
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, mobileArray);
+                R.layout.item_stories_listview, Constants.NAMES_ARRAY);
 
-//        ListView listView = (ListView) findViewById(R.id.mobile_list);
-        b.mobileList.setAdapter(adapter);
+        b.storiesListView.setAdapter(adapter);
 
-        b.mobileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        b.storiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                b.currentText.setText(mobileArray[i]);
+                b.currentText.setText(Constants.STORIES_ARRAY[i] + storiesSuffix);
                 isShown = true;
-                b.mobileList.setVisibility(View.GONE);
+                b.storiesListView.setVisibility(View.GONE);
                 b.topLayoutBottomActivity.setVisibility(View.GONE);
                 b.currentText.setVisibility(View.VISIBLE);
                 b.backImg.setVisibility(View.VISIBLE);
@@ -49,7 +50,7 @@ public class StoriesActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (isShown) {
             isShown = false;
-            b.mobileList.setVisibility(View.VISIBLE);
+            b.storiesListView.setVisibility(View.VISIBLE);
             b.topLayoutBottomActivity.setVisibility(View.VISIBLE);
             b.currentText.setVisibility(View.GONE);
             b.backImg.setVisibility(View.GONE);
