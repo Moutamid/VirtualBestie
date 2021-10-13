@@ -81,5 +81,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        b.notePadCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, NotesActivity.class));
+            }
+        });
+
     }
 }

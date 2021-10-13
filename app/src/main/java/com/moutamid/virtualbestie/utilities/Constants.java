@@ -8,6 +8,7 @@ public class Constants {
     public static final String USER_NAME = "username";
     public static final String USER_GENDER = "userGender";
     public static final String IS_LOGGED_IN = "isLoggedIn";
+    public static final String NOTES_LIST = "notes_list";
 
     public static ArrayList<Quiz> quizArrayList() {
         ArrayList<Quiz> quizzesList = new ArrayList<>();

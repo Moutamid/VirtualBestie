@@ -33,7 +33,9 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Utils {
 
@@ -258,17 +260,17 @@ public class Utils {
         }
     }
 
-//    public static void store(String name, ArrayList<String> arrayList) {
-//        Set<String> set = new HashSet<>(arrayList);
-//        utils.sp.edit().putStringSet(name, set).apply();
-//    }
-//
-//    public static ArrayList<String> getArrayList(String name) {
-//        Set<String> defaultSet = new HashSet<>();
-//        defaultSet.add("Error");
-//        Set<String> set = utils.sp.getStringSet(name, defaultSet);
-//        return new ArrayList<>(set);
-//    }
+    public static void store(String name, ArrayList<String> arrayList) {
+        Set<String> set = new HashSet<>(arrayList);
+        utils.sp.edit().putStringSet(name, set).apply();
+    }
+
+    public static ArrayList<String> getArrayList(String name) {
+        Set<String> defaultSet = new HashSet<>();
+        defaultSet.add("Error");
+        Set<String> set = utils.sp.getStringSet(name, defaultSet);
+        return new ArrayList<>(set);
+    }
 
     public static String getRandomNmbr(int length) {
         return String.valueOf(new Random().nextInt(length));
