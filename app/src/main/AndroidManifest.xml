@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.moutamid.virtualbestie">
+    package="dev.moutamid.chatty">
+<!--    package="com.moutamid.virtualbestie">-->
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:name=".AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VirtualBestie">
+
+        <activity
+            android:name=".chatbot.ChattyViewerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"/>
+
         <activity
             android:name=".activities.StoriesActivity"
             android:exported="true" />
