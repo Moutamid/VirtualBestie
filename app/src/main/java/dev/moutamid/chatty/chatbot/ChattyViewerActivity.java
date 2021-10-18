@@ -40,21 +40,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ai.api.AIListener;
+/*import ai.api.AIListener;
 import ai.api.AIServiceException;
 import ai.api.android.AIConfiguration;
 import ai.api.android.AIDataService;
 import ai.api.android.AIService;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
-import ai.api.model.Result;
+import ai.api.model.Result;*/
 import de.hdodenhof.circleimageview.CircleImageView;
 import dev.moutamid.chatty.R;
 import dev.moutamid.chatty.helper.Helper;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
 
-public class ChattyViewerActivity extends AppCompatActivity implements AIListener {
+public class ChattyViewerActivity extends AppCompatActivity {// implements AIListener {
     private static final String TAG = "ChattyViewerActivity";
     private Context context = ChattyViewerActivity.this;
 
@@ -78,12 +78,15 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 
 //    private DatabaseReference ref;
 
-    private String message;
+    //    private String message;
     private RequestQueue mRequestQueue;
     private Bitmap imgBoy;
 
-    private ArrayList<String> msgText = getArrayList(Constants.TEXT_MESSAGES, "Hi");
-    private ArrayList<String> msgUser = getArrayList(Constants.TEXT_USER, "user");
+//    private ArrayList<String> msgText = getArrayList(Constants.TEXT_MESSAGES, "Hi");
+//    private ArrayList<String> msgUser = getArrayList(Constants.TEXT_USER, "user");
+
+    ArrayList<ChatMessage> chatMessageArrayList =
+            getArrayList(Constants.CHAT_BOT_MESSAGES, ChatMessage.class);
 
     /*private ArrayList<String> msgText = new ArrayList<>();
     private ArrayList<String> msgUser = new ArrayList<>();
@@ -91,17 +94,18 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //    ArrayList<String> tasksArrayList = getArrayList(Constants.NOTES_LIST);
 
 
-    private AIService aiService;
-    private AIDataService aiDataService;
-    private AIRequest aiRequest;
+//    private AIService aiService;
+//    private AIDataService aiDataService;
+//    private AIRequest aiRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
 
-        Log.d(TAG, "onCreate: msgText: " + msgText.toString());
-        Log.d(TAG, "onCreate: msgUser: " + msgUser.toString());
+//        Log.d(TAG, "onCreate: msgText: " + msgText.toString());
+//        Log.d(TAG, "onCreate: msgUser: " + msgUser.toString());
+        Log.d(TAG, "onCreate: msgUser: " + chatMessageArrayList.toString());
         editText = findViewById(R.id.editText);
         addBtn = findViewById(R.id.addBtn);
         editTextLayout = findViewById(R.id.edittextLayout);
@@ -128,22 +132,22 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
         }
 
-        String userName = Utils.getString("userName", "Error");
+/*//        String userName = Utils.getString("userName", "Error");
 
 //        ref = FirebaseDatabase.getInstance().getReference().child(userName);
-//        ref.keepSynced(true);
+//        ref.keepSynced(true);*/
 
         // below line is to initialize our request queue.
         mRequestQueue = Volley.newRequestQueue(ChattyViewerActivity.this);
         mRequestQueue.getCache().clear();
 
-        final AIConfiguration config = new AIConfiguration("9a656058c9ba4eed9ce60bdb2ad6613b",
+        /*final AIConfiguration config = new AIConfiguration("9a656058c9ba4eed9ce60bdb2ad6613b",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(this, config);
         aiService.setListener(this);
         aiDataService = new AIDataService(this, config);
-        aiRequest = new AIRequest();
+        aiRequest = new AIRequest();*/
 
         final Bitmap sendImg = BitmapFactory.decodeResource(getResources(), R.drawable.ic_send_white_24dp);
 
@@ -151,22 +155,24 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
-                message = editText.getText().toString().trim();
+
+                String message = editText.getText().toString().trim();
                 Log.d(TAG, "onClick: message " + message);
                 Helper.ImageViewAnimatedChange(ChattyViewerActivity.this, fab_img, sendImg);
 
                 if (!message.equals("") && Helper.isOnline() && !TextUtils.isEmpty(message)) {
                     Log.d(TAG, "onClick: if (!message.equals(\"\") && Helper.isOnline() && !TextUtils.isEmpty(message)) {");
 
-                    msgUser.add("user");
-                    msgText.add(message);
+//                    msgUser.add("user");
+//                    msgText.add(message);
+                    chatMessageArrayList.add(new ChatMessage(message, Constants.USER_MESSAGE));
                     initRecyclerView();
 
-                    setMyMsgStatusImg();
+                    setMyMsgStatusImg(message);
 
                     editText.setText("");
 
-                    Utils.store("chattyLastMsg", message);
+//                    Utils.store("chattyLastMsg", message);
 
                     addBtn.setEnabled(false);
                     handler.postDelayed(new Runnable() {
@@ -194,25 +200,25 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 
     }
 
-    private void uploadMessageAndGetResponse(String message) {
+    /*private void uploadMessageAndGetResponse(String message) {
         Log.d(TAG, "uploadMessageAndGetResponse: ");
         if (!TextUtils.isEmpty(message)) {
             Log.d(TAG, "uploadMessageAndGetResponse: if (!TextUtils.isEmpty(message)) {");
 
-            aiRequest.setQuery(message);
+//            aiRequest.setQuery(message);
 
-            tabBtn.setText("Typing...");
+//            tabBtn.setText("Typing...");
 
             ChatMessage chatMessage = new ChatMessage(message, "user");
-            msgUser.add("user");
-            msgText.add(message);
-            Utils.store(Constants.TEXT_USER, msgUser);
-            Utils.store(Constants.TEXT_MESSAGES, msgText);
-            initRecyclerView();
+//            msgUser.add("user");
+//            msgText.add(message);
+//            Utils.store(Constants.TEXT_USER, msgUser);
+//            Utils.store(Constants.TEXT_MESSAGES, msgText);
+//            initRecyclerView();
             Log.d(TAG, "uploadMessageAndGetResponse: message: " + message);
 //            ref.child("chat").push().setValue(chatMessage);
 
-            new AsyncTask<AIRequest, Void, AIResponse>() {
+            *//*new AsyncTask<AIRequest, Void, AIResponse>() {
 
                 @Override
                 protected AIResponse doInBackground(AIRequest... aiRequests) {
@@ -258,7 +264,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
                         store("chattyLastMsg", reply);
                     } else Log.d(TAG, "onPostExecute: response is null");
                 }
-            }.execute(aiRequest);
+            }.execute(aiRequest);*//*
         } else if (message.equals("")) {
             Log.d(TAG, "uploadMessageAndGetResponse: } else if (message.equals(\"\")) {");
 
@@ -266,7 +272,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             editText.requestFocus();
 
         }
-    }
+    }*/
 
 
     private void initRecyclerView() {
@@ -305,7 +311,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
         });
     }
 
-    @Override
+    /*@Override
     public void onResult(ai.api.model.AIResponse response) {
         Log.d(TAG, "onResult: ");
         Result result = response.getResult();
@@ -349,12 +355,12 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
     @Override
     public void onListeningFinished() {
     }
-
+*/
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-//        ref.child("chat").addValueEventListener(new ValueEventListener() {
+/*//        ref.child("chat").addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //
@@ -369,10 +375,10 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //                    msgUser.add(user);
 //                    msgText.add(message);
 //
-//                }
+//                }*/
 
         initRecyclerView();
-//
+/*//
 //            }
 //
 //            @Override
@@ -383,7 +389,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //                Log.d("MainActivity", "onCancelled: " + databaseError.getMessage());
 //
 //            }
-//        });
+//        });*/
 
     }
 
@@ -393,7 +399,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //        startActivity(new Intent(ChattyViewerActivity.this, TabbedActivity.class));
     }
 
-    private void setMyMsgStatusImg() {
+    private void setMyMsgStatusImg(String message) {
         Log.d(TAG, "setMyMsgStatusImg: ");
         myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_msg_not_sent));
 
@@ -401,29 +407,31 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             @Override
             public void run() {
                 myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_msg_sent));
-                setDeliveredImage();
+                setDeliveredImage(message);
             }
         }, 1000);
 
     }
 
-    private void setDeliveredImage() {
+    private void setDeliveredImage(String message) {
         Log.d(TAG, "setDeliveredImage: ");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_msg_delivered));
-                setSeenImage();
+                setSeenImage(message);
             }
         }, 1000);
 
     }
 
-    private void setSeenImage() {
+    private void setSeenImage(String message) {
         Log.d(TAG, "setSeenImage: ");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                tabBtn.setText("Typing...");
+
                 myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
 //                uploadMessageAndGetResponse(message);
 
@@ -446,8 +454,11 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
                             String botResponse = response.getString("cnt");
                             tabBtn.setText("Online");
 
-                            msgUser.add("bot");
-                            msgText.add(botResponse);
+//                            msgUser.add("bot");
+//                            msgText.add(botResponse);
+//                            /
+                            chatMessageArrayList.add(new ChatMessage(botResponse, Constants.BOT_MESSAGE));
+
                             Log.d(TAG, "onPostExecute: reply: " + botResponse);
                             Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
 
@@ -456,8 +467,9 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //                            ChatMessage chatMessage = new ChatMessage(reply, "bot");
 //                        msgUser.add("bot");
 //                        msgText.add(reply);
-                            store(Constants.TEXT_USER, msgUser);
-                            store(Constants.TEXT_MESSAGES, msgText);
+                            /*store(Constants.TEXT_USER, msgUser);
+                            store(Constants.TEXT_MESSAGES, msgText);*/
+                            store(Constants.CHAT_BOT_MESSAGES, chatMessageArrayList);
 //                        ref.child("chat").push().setValue(chatMessage);
                             store("chattyLastMsg", botResponse);
                         } catch (JSONException e) {
@@ -467,8 +479,9 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 //                            messageModalArrayList.add(new MessageModal("No response", BOT_KEY));
 //                            messageRVAdapter.notifyDataSetChanged();
 
-                            msgUser.add("bot");
-                            msgText.add("No response");
+                            /*msgUser.add("bot");
+                            msgText.add("No response");*/
+                            chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
 //                            Log.d(TAG, "onPostExecute: reply: " + botResponse);
                             Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
 
@@ -479,20 +492,22 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        msgUser.add("bot");
-                        msgText.add("Sorry no response found: "+ error.toString());
-                        Utils.toast(error.toString());
-                        tabBtn.setText(error.toString());
+                        /*msgUser.add("bot");
+                        msgText.add("Sorry no response found: " + error.toString());*/
+                        chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
+
+//                        Utils.toast(error.toString());
+//                        tabBtn.setText(error.toString());
 //                            Log.d(TAG, "onPostExecute: reply: " + botResponse);
                         Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
 
-                        adapter.notifyDataSetChanged();
+//                        adapter.notifyDataSetChanged();
 
-//                        initRecyclerView();
+                        initRecyclerView();
 
                         // error handling.
 //                        messageModalArrayList.add(new MessageModal("Sorry no response found", BOT_KEY));
-                        Toast.makeText(ChattyViewerActivity.this, "No response from the bot..", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ChattyViewerActivity.this, "No response from the bot..", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -523,10 +538,11 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             Log.d(TAG, "onBindViewHolder: position: " + position);
             //holder.receivedImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.boy));
 
-            if (msgUser.get(position).equals("user")) {
+            if (chatMessageArrayList.get(position).getMsgUser().equals(Constants.USER_MESSAGE)) {
+//            if (msgUser.get(position).equals("user")) {
                 Log.d(TAG, "onBindViewHolder: if (msgUser.get(position).equals(\"user\")) {");
 
-                holder.rightText.setText(msgText.get(position));
+                holder.rightText.setText(chatMessageArrayList.get(position).getMsgText());
 
                 holder.rightText.setVisibility(View.VISIBLE);
                 holder.leftText.setVisibility(View.GONE);
@@ -534,7 +550,7 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
             } else {
                 Log.d(TAG, "onBindViewHolder: } else {");
 
-                holder.leftText.setText(msgText.get(position));
+                holder.leftText.setText(chatMessageArrayList.get(position).getMsgText());
 
                 holder.rightText.setVisibility(View.GONE);
                 holder.leftText.setVisibility(View.VISIBLE);
@@ -544,7 +560,8 @@ public class ChattyViewerActivity extends AppCompatActivity implements AIListene
 
         @Override
         public int getItemCount() {
-            return msgUser.size();
+            return chatMessageArrayList.size();
+//            return msgUser.size();
         }
 
         public class ViewHolderMessages extends RecyclerView.ViewHolder {

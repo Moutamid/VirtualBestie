@@ -11,6 +11,9 @@ public class Constants {
     public static final String NOTES_LIST = "notes_list";
     public static final String TEXT_MESSAGES = "text_messages";
     public static final String TEXT_USER = "text_user";
+    public static final String CHAT_BOT_MESSAGES = "chat_bot_messages";
+    public static final String BOT_MESSAGE = "bot_message";
+    public static final String USER_MESSAGE = "user_message";
 
     public static ArrayList<Quiz> quizArrayList() {
         ArrayList<Quiz> quizzesList = new ArrayList<>();
