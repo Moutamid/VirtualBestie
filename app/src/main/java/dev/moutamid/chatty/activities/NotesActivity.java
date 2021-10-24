@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+
 import dev.moutamid.chatty.AppCompatLineEditText;
- import dev.moutamid.chatty.R;
+import dev.moutamid.chatty.R;
 import dev.moutamid.chatty.helper.Helper;
 import dev.moutamid.chatty.utilities.Constants;
+import dev.moutamid.chatty.utilities.Utils;
 
 import java.util.ArrayList;
 
@@ -92,10 +94,10 @@ public class NotesActivity extends AppCompatActivity {
                 // THIS IS THE ARRAY LIST STORED IN THE SHARED PREFERENCES
                 if (tasksArrayList.get(0).equals("Error")) {
                     ArrayList<String> notesArrayList = new ArrayList<>();
-                    notesArrayList.add(editText.getText().toString());
+                    notesArrayList.add(Utils.getDateTime() + "\n" + editText.getText().toString());
                     store(Constants.NOTES_LIST, notesArrayList);
                 } else {
-                    tasksArrayList.add(editText.getText().toString());
+                    tasksArrayList.add(Utils.getDateTime() + "\n" + editText.getText().toString());
                     store(Constants.NOTES_LIST, tasksArrayList);
                 }
                 editText.setText("");

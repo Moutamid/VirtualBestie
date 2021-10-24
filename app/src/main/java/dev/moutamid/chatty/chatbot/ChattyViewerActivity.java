@@ -3,7 +3,9 @@ package dev.moutamid.chatty.chatbot;
 import static dev.moutamid.chatty.utilities.Utils.getArrayList;
 import static dev.moutamid.chatty.utilities.Utils.store;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -51,6 +53,7 @@ import ai.api.model.Result;*/
 import de.hdodenhof.circleimageview.CircleImageView;
 import dev.moutamid.chatty.R;
 import dev.moutamid.chatty.helper.Helper;
+import dev.moutamid.chatty.models.ResponsesModel;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
 
@@ -102,6 +105,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
+
+        showAskDIalog();
 
 //        Log.d(TAG, "onCreate: msgText: " + msgText.toString());
 //        Log.d(TAG, "onCreate: msgUser: " + msgUser.toString());
@@ -198,6 +203,26 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
             }
         });
 
+    }
+
+    private void showAskDIalog() {
+        new AlertDialog.Builder(ChattyViewerActivity.this)
+                .setTitle("Please select!")
+                .setMessage("Which Type of chatbot you are trying to chat with?")
+                .setPositiveButton("Editable", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        editable = true;
+                    }
+                })
+                .setNegativeButton("Non-editable", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        editable = false;
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     /*private void uploadMessageAndGetResponse(String message) {
@@ -425,6 +450,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
     }
 
+    boolean editable = false;
+
     private void setSeenImage(String message) {
         Log.d(TAG, "setSeenImage: ");
         handler.postDelayed(new Runnable() {
@@ -434,6 +461,11 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
                 myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
 //                uploadMessageAndGetResponse(message);
+
+                if (editable) {
+                    retrieveAnswerFromBrain(message.toLowerCase());
+                    return;
+                }
 
                 // url for our brain
                 // make sure to add mshape for uid.
@@ -519,6 +551,33 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
             }
         }, 1000);
 
+    }
+
+    private void retrieveAnswerFromBrain(String query) {
+
+        ArrayList<ResponsesModel> brain = ChatBrain.asList();
+
+        String botResponse = "I don't understand!";
+
+        for (ResponsesModel model : brain) {
+
+            if (model.getQuestion().toLowerCase().equals(query))
+                botResponse = model.getAnswer();
+
+        }
+
+        tabBtn.setText("Online");
+
+        chatMessageArrayList.add(new ChatMessage(botResponse, Constants.BOT_MESSAGE));
+
+        Log.d(TAG, "retrieveAnswerFromBrain: reply: " + botResponse);
+
+        Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+        initRecyclerView();
+
+        store(Constants.CHAT_BOT_MESSAGES, chatMessageArrayList);
+        store("chattyLastMsg", botResponse);
     }
 
     private class RecyclerViewAdapterMessages extends RecyclerView.Adapter

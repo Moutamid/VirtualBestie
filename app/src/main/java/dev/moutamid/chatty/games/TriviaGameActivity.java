@@ -18,6 +18,7 @@ import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import link.fls.swipestack.SwipeStack;
@@ -44,7 +45,7 @@ public class TriviaGameActivity extends AppCompatActivity {
         setContentView(b.getRoot());
 
         quizArrayList = new ArrayList<>(Constants.quizArrayList());
-
+        Collections.shuffle(quizArrayList);
         b.counterText.setText(counter + "");
 
         SwipeStack swipeStack = (SwipeStack) findViewById(R.id.swipeStack);

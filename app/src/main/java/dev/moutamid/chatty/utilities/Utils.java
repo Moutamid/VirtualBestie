@@ -385,12 +385,13 @@ public class Utils {
     //return gson.fromJson(json, type);
     // }
 
-    public String getDate() {
+    public static String getDateTime() {
 
         try {
 
             Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             return sdf.format(date);
 
         } catch (Exception e) {
