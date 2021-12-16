@@ -4,7 +4,7 @@ plugins {
 
 android {
     compileSdk 30
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "moutamid.spdf.com.chatty"
 //        applicationId "dev.moutamid.chatty"

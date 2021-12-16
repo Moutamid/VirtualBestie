@@ -6,9 +6,11 @@ import static dev.moutamid.chatty.utilities.Utils.store;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -37,22 +39,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-/*import ai.api.AIListener;
-import ai.api.AIServiceException;
-import ai.api.android.AIConfiguration;
-import ai.api.android.AIDataService;
-import ai.api.android.AIService;
-import ai.api.model.AIRequest;
-import ai.api.model.AIResponse;
-import ai.api.model.Result;*/
 import de.hdodenhof.circleimageview.CircleImageView;
 import dev.moutamid.chatty.R;
+import dev.moutamid.chatty.helper.BrowserActivity;
 import dev.moutamid.chatty.helper.Helper;
+import dev.moutamid.chatty.helper.translate_api;
 import dev.moutamid.chatty.models.ResponsesModel;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
@@ -68,8 +76,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
     private Button tabBtn;
 
-//    private SharedPreferences sharedPreferences;
-
     private ImageView fab_img;
 
     private CircleImageView myMsgStatusImg;
@@ -79,37 +85,19 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
     private RelativeLayout addBtn;
     private ScrollView editTextLayout;
 
-//    private DatabaseReference ref;
-
-    //    private String message;
     private RequestQueue mRequestQueue;
     private Bitmap imgBoy;
 
-//    private ArrayList<String> msgText = getArrayList(Constants.TEXT_MESSAGES, "Hi");
-//    private ArrayList<String> msgUser = getArrayList(Constants.TEXT_USER, "user");
-
     ArrayList<ChatMessage> chatMessageArrayList =
             getArrayList(Constants.CHAT_BOT_MESSAGES, ChatMessage.class);
-
-    /*private ArrayList<String> msgText = new ArrayList<>();
-    private ArrayList<String> msgUser = new ArrayList<>();
-*/
-//    ArrayList<String> tasksArrayList = getArrayList(Constants.NOTES_LIST);
-
-
-//    private AIService aiService;
-//    private AIDataService aiDataService;
-//    private AIRequest aiRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
 
-        showAskDIalog();
+//        showAskDIalog();
 
-//        Log.d(TAG, "onCreate: msgText: " + msgText.toString());
-//        Log.d(TAG, "onCreate: msgUser: " + msgUser.toString());
         Log.d(TAG, "onCreate: msgUser: " + chatMessageArrayList.toString());
         editText = findViewById(R.id.editText);
         addBtn = findViewById(R.id.addBtn);
@@ -122,37 +110,17 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         tabBtn = findViewById(R.id.tabBtn);
 
         handler = new Handler();
-//        sharedPreferences = this.getSharedPreferences("moutamid.spdf.com.chatty", Context.MODE_PRIVATE);
-        String msgStatus = Utils.getString("msgStatus", "Error");
 
-        // Changing the color of EditText bar
-//        if (Build.VERSION.SDK_INT < 21) {
-//            editText.setBackgroundColor(getResources().getColor(R.color.lighterGrey));
-//            editTextLayout.setBackgroundColor(getResources().getColor(R.color.lighterGrey));
-//
-//        }
+        String msgStatus = Utils.getString("msgStatus", "Error");
 
         if (msgStatus.equals("true")) {
             Log.d(TAG, "onCreate: if (msgStatus.equals(\"true\")) {");
             myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
         }
 
-/*//        String userName = Utils.getString("userName", "Error");
-
-//        ref = FirebaseDatabase.getInstance().getReference().child(userName);
-//        ref.keepSynced(true);*/
-
         // below line is to initialize our request queue.
         mRequestQueue = Volley.newRequestQueue(ChattyViewerActivity.this);
         mRequestQueue.getCache().clear();
-
-        /*final AIConfiguration config = new AIConfiguration("9a656058c9ba4eed9ce60bdb2ad6613b",
-                AIConfiguration.SupportedLanguages.English,
-                AIConfiguration.RecognitionEngine.System);
-        aiService = AIService.getService(this, config);
-        aiService.setListener(this);
-        aiDataService = new AIDataService(this, config);
-        aiRequest = new AIRequest();*/
 
         final Bitmap sendImg = BitmapFactory.decodeResource(getResources(), R.drawable.ic_send_white_24dp);
 
@@ -168,25 +136,21 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 if (!message.equals("") && Helper.isOnline() && !TextUtils.isEmpty(message)) {
                     Log.d(TAG, "onClick: if (!message.equals(\"\") && Helper.isOnline() && !TextUtils.isEmpty(message)) {");
 
-//                    msgUser.add("user");
-//                    msgText.add(message);
                     chatMessageArrayList.add(new ChatMessage(message, Constants.USER_MESSAGE));
                     initRecyclerView();
-
+                    Log.i(TAG, "onClick: started: " + message);
                     setMyMsgStatusImg(message);
 
                     editText.setText("");
 
-//                    Utils.store("chattyLastMsg", message);
-
                     addBtn.setEnabled(false);
-                    handler.postDelayed(new Runnable() {
+                    /*handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Log.d(TAG, "run: ");
                             addBtn.setEnabled(true);
                         }
-                    }, 3100);
+                    }, 3100);*/
 
 
                 } else if (message.equals("")) {
@@ -202,6 +166,392 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
             }
         });
+
+    }
+
+    private class ConvertRomanToReal extends AsyncTask<Void, Void, Void> {
+
+        String editTextStr;
+        String value;
+        String outputSentence;
+        String inputSentence;
+        String englishSentence;
+        String urduSentence;
+
+        public ConvertRomanToReal(String inputSentence) {
+            this.inputSentence = inputSentence;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            editTextStr = inputSentence;
+
+//            progressDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            outputSentence = "";
+
+            StringTokenizer t = new StringTokenizer(editTextStr);
+            String word = "";
+
+            while (t.hasMoreTokens()) {
+                word = t.nextToken();
+
+                outputSentence += " " + getTransliteration(word);
+
+            }
+            Log.i(TAG, "doInBackground: ouputSentence: " + outputSentence);
+            translateUrduToEnglish();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            Log.i(TAG, "onPostExecute: passedToBot");
+
+//            queryBot();
+
+        }
+
+        private void queryBot() {
+            // url for our brain
+            // make sure to add mshape for uid.
+            // make sure to add your url.
+            String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[mshape]&msg=" + englishSentence;
+//                String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[uid]&msg=[msg]" + message;
+
+            // creating a variable for our request queue.
+            RequestQueue queue = Volley.newRequestQueue(ChattyViewerActivity.this);
+
+            // on below line we are making a json object request for a get request and passing our url .
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    try {
+
+                        // in on response method we are extracting data
+                        // from json response and adding this response to our array list.
+                        String botResponse = response.getString("cnt");
+                        Log.i(TAG, "onResponse: gotBotResponse: " + botResponse);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                translateEnglishToUrdu(botResponse);
+                            }
+                        }).start();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                        chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
+                        Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                        initRecyclerView();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
+                    Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                    initRecyclerView();
+
+                }
+            });
+
+            // at last adding json object
+            // request to our queue.
+            queue.add(jsonObjectRequest);
+
+            Utils.store("msgStatus", "true");
+
+        }
+
+        private void translateEnglishToUrdu(String sentence) {
+            //https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ur&dt=t&q=morning
+
+            /*try {
+                String encode = URLEncoder.encode(sentence.trim(), "utf-8");
+                StringBuilder sb = new StringBuilder();
+                sb.append("https://translate.googleapis.com/translate_a/single?client=gtx&sl=");
+                sb.append("en");
+                sb.append("&tl=");
+                sb.append("ur");
+                sb.append("&dt=t&q=");
+                sb.append(encode);
+
+                URL google = null;
+                google = new URL(sb.toString());
+                BufferedReader in = null;
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+                String input = null;
+                StringBuffer stringBuffer = new StringBuffer();
+                while (true) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+                    stringBuffer.append(input);
+                }
+                if (in != null) {
+                    in.close();
+                }
+
+                JSONArray jSONArray = new JSONArray(stringBuffer.toString()).getJSONArray(0);
+                String str2 = "";
+                for (int i = 0; i < jSONArray.length(); i++) {
+                    JSONArray jSONArray2 = jSONArray.getJSONArray(i);
+                    StringBuilder sb2 = new StringBuilder();
+                    sb2.append(str2);
+                    sb2.append(jSONArray2.get(0).toString());
+                    str2 = sb2.toString();
+                }
+                urduSentence = str2;
+
+            } catch (Exception e) {
+                Log.e("translate_api", e.getMessage());
+                Log.e("translate_api", e.getStackTrace().toString());
+                Log.e("translate_api", e.toString());
+                e.printStackTrace();
+
+//                urduSentence = sentence;
+                urduSentence = e.getMessage();
+            }*/
+
+            translate_api translate = new translate_api();
+            translate.setOnTranslationCompleteListener(new translate_api.OnTranslationCompleteListener() {
+                @Override
+                public void onStartTranslation() {
+                    // here you can perform initial work before translated the text like displaying progress bar
+                }
+
+                @Override
+                public void onCompleted(String text) {
+                    // "text" variable will give you the translated text
+                    urduSentence = text;
+                    Log.i(TAG, "translateEnglishToUrdu: urduSentence: " + urduSentence);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tabBtn.setText("Online");
+                            Log.i(TAG, "run: addedToChat");
+                            chatMessageArrayList.add(new ChatMessage(urduSentence, Constants.BOT_MESSAGE));
+
+                            Log.d(TAG, "onPostExecute: reply: " + urduSentence);
+                            Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                            initRecyclerView();
+
+                            store(Constants.CHAT_BOT_MESSAGES, chatMessageArrayList);
+
+                            store("chattyLastMsg", urduSentence);
+
+                            addBtn.setEnabled(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+            translate.execute(sentence, "en", "ur");
+
+
+//            if (urduSentence.contains("https://www.google.com/sorry/index?continue=https://translate.googleapis")) {
+//                finish();
+//                startActivity(new Intent(ChattyViewerActivity.this, BrowserActivity.class)
+//                        .putExtra(Constants.TEXT_MESSAGES, urduSentence));
+//                return;
+//            }
+
+
+        }
+
+        private void translateUrduToEnglish() {
+            //https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ur&dt=t&q=morning
+
+            translate_api translate = new translate_api();
+            translate.setOnTranslationCompleteListener(new translate_api.OnTranslationCompleteListener() {
+                @Override
+                public void onStartTranslation() {
+                    // here you can perform initial work before translated the text like displaying progress bar
+                }
+
+                @Override
+                public void onCompleted(String text) {
+                    // "text" variable will give you the translated text
+                    englishSentence = text;
+                    Log.i(TAG, "translateUrduToEnglish: englishSentence: " + englishSentence);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            queryBot();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+            translate.execute(outputSentence, "ur", "en");
+
+            /*try {
+                String encode = URLEncoder.encode(outputSentence.trim(), "utf-8");
+                StringBuilder sb = new StringBuilder();
+                sb.append("https://translate.googleapis.com/translate_a/single?client=gtx&sl=");
+                sb.append("ur");
+                sb.append("&tl=");
+                sb.append("en");
+                sb.append("&dt=t&q=");
+                sb.append(encode);
+
+                URL google = null;
+                google = new URL(sb.toString());
+                BufferedReader in = null;
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+                String input = null;
+                StringBuffer stringBuffer = new StringBuffer();
+                while (true) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+                    stringBuffer.append(input);
+                }
+                if (in != null) {
+                    in.close();
+                }
+
+                JSONArray jSONArray = new JSONArray(stringBuffer.toString()).getJSONArray(0);
+                String str2 = "";
+                for (int i = 0; i < jSONArray.length(); i++) {
+                    JSONArray jSONArray2 = jSONArray.getJSONArray(i);
+                    StringBuilder sb2 = new StringBuilder();
+                    sb2.append(str2);
+                    sb2.append(jSONArray2.get(0).toString());
+                    str2 = sb2.toString();
+                }
+                englishSentence = str2;
+
+                *//*HttpResponse execute = new DefaultHttpClient().execute(new HttpGet(sb.toString()));
+                StatusLine statusLine = execute.getStatusLine();
+                if (statusLine.getStatusCode() == 200) {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    execute.getEntity().writeTo(byteArrayOutputStream);
+                    String byteArrayOutputStream2 = byteArrayOutputStream.toString();
+                    byteArrayOutputStream.close();
+                    JSONArray jSONArray = new JSONArray(byteArrayOutputStream2).getJSONArray(0);
+                    String str2 = "";
+                    for (int i = 0; i < jSONArray.length(); i++) {
+                        JSONArray jSONArray2 = jSONArray.getJSONArray(i);
+                        StringBuilder sb2 = new StringBuilder();
+                        sb2.append(str2);
+                        sb2.append(jSONArray2.get(0).toString());
+                        str2 = sb2.toString();
+                    }
+                    englishSentence = str2 ;
+                }
+                execute.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());*//*
+            } catch (Exception e) {
+                Log.e("translate_api", e.getMessage());
+//                listener.onError(e);
+                englishSentence = e.getMessage();
+//                englishSentence = outputSentence;
+            }
+            if (englishSentence.contains("https://www.google.com/sorry/index?continue=https://translate.googleapis")) {
+                finish();
+                startActivity(new Intent(ChattyViewerActivity.this, BrowserActivity.class)
+                        .putExtra(Constants.TEXT_MESSAGES, englishSentence));
+            }*/
+        }
+
+        private String getTransliteration(String pWord) {
+            String link1 = "https://www.google.com/transliterate/indic?tlqt=1&langpair=en|ur&text=";
+            String link2 = "https://www.google.com/transliterate/indic?tlqt=1&langpair=ur|en&text=";
+
+            value = getHtmlString(link1, pWord);
+
+            if (value.equals("null"))
+                value = getHtmlString(link2, pWord);
+
+            JSONArray jsonArray1 = null;
+
+            try {
+                jsonArray1 = new JSONArray(value);
+
+                JSONObject jsonObject = jsonArray1.getJSONObject(0);
+
+                JSONArray jsonArray = jsonObject.getJSONArray("hws");
+
+                value = jsonArray.getString(0);//jsonArray.length()-1
+
+            } catch (JSONException e) {
+                value = pWord;
+            /*runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(TesterActivity.this, value + " VALUE IS NULL: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });*/
+                Log.e(TAG, "run: " + e.getMessage());
+            }
+
+            return value;
+        }
+
+        private String getHtmlString(String uurl, String uWord) {
+            URL google = null;
+            String htmlData = uWord;
+
+            String url = uurl + uWord;
+
+            try {
+
+                google = new URL(url);
+
+                BufferedReader in = null;
+
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+
+                String input = null;
+                StringBuffer stringBuffer = new StringBuffer();
+                while (true) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+
+                    stringBuffer.append(input);
+                }
+
+                if (in != null) {
+                    in.close();
+                }
+
+                htmlData = stringBuffer.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return htmlData;
+        }
 
     }
 
@@ -224,81 +574,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 .setCancelable(false)
                 .show();
     }
-
-    /*private void uploadMessageAndGetResponse(String message) {
-        Log.d(TAG, "uploadMessageAndGetResponse: ");
-        if (!TextUtils.isEmpty(message)) {
-            Log.d(TAG, "uploadMessageAndGetResponse: if (!TextUtils.isEmpty(message)) {");
-
-//            aiRequest.setQuery(message);
-
-//            tabBtn.setText("Typing...");
-
-            ChatMessage chatMessage = new ChatMessage(message, "user");
-//            msgUser.add("user");
-//            msgText.add(message);
-//            Utils.store(Constants.TEXT_USER, msgUser);
-//            Utils.store(Constants.TEXT_MESSAGES, msgText);
-//            initRecyclerView();
-            Log.d(TAG, "uploadMessageAndGetResponse: message: " + message);
-//            ref.child("chat").push().setValue(chatMessage);
-
-            *//*new AsyncTask<AIRequest, Void, AIResponse>() {
-
-                @Override
-                protected AIResponse doInBackground(AIRequest... aiRequests) {
-                    final AIRequest request = aiRequests[0];
-                    Log.d(TAG, "doInBackground: ");
-                    try {
-                        Log.d(TAG, "doInBackground: try");
-                        final AIResponse response = aiDataService.request(aiRequest);
-
-                        return response;
-
-                    } catch (AIServiceException e) {
-                        e.printStackTrace();
-                        Log.d("MainActivity", " moutamid.spdf.com.chatty: doInBackground: AIResposne Error!");
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(AIResponse response) {
-                    Log.d(TAG, "onPostExecute: ");
-                    if (response != null) {
-                        Log.d(TAG, "onPostExecute: if (response != null) {");
-
-                        Result result = response.getResult();
-                        String reply = result.getFulfillment().getSpeech();
-
-                        tabBtn.setText("Online");
-
-                        msgUser.add("bot");
-                        msgText.add(reply);
-                        Log.d(TAG, "onPostExecute: reply: " + reply);
-                        Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
-
-                        initRecyclerView();
-
-                        ChatMessage chatMessage = new ChatMessage(reply, "bot");
-//                        msgUser.add("bot");
-//                        msgText.add(reply);
-                        store(Constants.TEXT_USER, msgUser);
-                        store(Constants.TEXT_MESSAGES, msgText);
-//                        ref.child("chat").push().setValue(chatMessage);
-                        store("chattyLastMsg", reply);
-                    } else Log.d(TAG, "onPostExecute: response is null");
-                }
-            }.execute(aiRequest);*//*
-        } else if (message.equals("")) {
-            Log.d(TAG, "uploadMessageAndGetResponse: } else if (message.equals(\"\")) {");
-
-            editText.setError("Please add a message!");
-            editText.requestFocus();
-
-        }
-    }*/
-
 
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: ");
@@ -336,92 +611,13 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         });
     }
 
-    /*@Override
-    public void onResult(ai.api.model.AIResponse response) {
-        Log.d(TAG, "onResult: ");
-        Result result = response.getResult();
-
-        String message = result.getResolvedQuery();
-        ChatMessage chatMessage0 = new ChatMessage(message, "user");
-//        ref.child("chat").push().setValue(chatMessage0);
-
-        String reply = result.getFulfillment().getSpeech();
-
-        msgUser.add("bot");
-        msgText.add(reply);
-        Utils.store(Constants.TEXT_USER, msgUser);
-        Utils.store(Constants.TEXT_MESSAGES, msgText);
-        initRecyclerView();
-        Log.d(TAG, "onResult: reply: " + reply);
-
-        ChatMessage chatMessage = new ChatMessage(reply, "bot");
-//        ref.child("chat").push().setValue(chatMessage);
-
-        Toast.makeText(this, "On Result Executed!", Toast.LENGTH_LONG).show();
-
-    }
-
-    @Override
-    public void onError(ai.api.model.AIError error) {
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-    }
-
-    @Override
-    public void onListeningStarted() {
-    }
-
-    @Override
-    public void onListeningCanceled() {
-    }
-
-    @Override
-    public void onListeningFinished() {
-    }
-*/
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-/*//        ref.child("chat").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                msgUser.clear();
-//                msgText.clear();
-//
-//                for (DataSnapshot questions : dataSnapshot.getChildren()) {
-//
-//                    String message = questions.child("msgText").getValue(String.class);
-//                    String user = questions.child("msgUser").getValue(String.class);
-//
-//                    msgUser.add(user);
-//                    msgText.add(message);
-//
-//                }*/
 
         initRecyclerView();
-/*//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                Log.i("Database Error", databaseError.getMessage());
-//                Log.i("Database Error", databaseError.getDetails());
-//                Log.d("MainActivity", "onCancelled: " + databaseError.getMessage());
-//
-//            }
-//        });*/
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        startActivity(new Intent(ChattyViewerActivity.this, TabbedActivity.class));
     }
 
     private void setMyMsgStatusImg(String message) {
@@ -460,94 +656,14 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 tabBtn.setText("Typing...");
 
                 myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
-//                uploadMessageAndGetResponse(message);
 
                 if (editable) {
                     retrieveAnswerFromBrain(message.toLowerCase());
                     return;
                 }
 
-                // url for our brain
-                // make sure to add mshape for uid.
-                // make sure to add your url.
-                String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[mshape]&msg=" + message;
-//                String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[uid]&msg=[msg]" + message;
+                new ConvertRomanToReal(message).execute();
 
-                // creating a variable for our request queue.
-                RequestQueue queue = Volley.newRequestQueue(ChattyViewerActivity.this);
-
-                // on below line we are making a json object request for a get request and passing our url .
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // in on response method we are extracting data
-                            // from json response and adding this response to our array list.
-                            String botResponse = response.getString("cnt");
-                            tabBtn.setText("Online");
-
-//                            msgUser.add("bot");
-//                            msgText.add(botResponse);
-//                            /
-                            chatMessageArrayList.add(new ChatMessage(botResponse, Constants.BOT_MESSAGE));
-
-                            Log.d(TAG, "onPostExecute: reply: " + botResponse);
-                            Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
-
-                            initRecyclerView();
-
-//                            ChatMessage chatMessage = new ChatMessage(reply, "bot");
-//                        msgUser.add("bot");
-//                        msgText.add(reply);
-                            /*store(Constants.TEXT_USER, msgUser);
-                            store(Constants.TEXT_MESSAGES, msgText);*/
-                            store(Constants.CHAT_BOT_MESSAGES, chatMessageArrayList);
-//                        ref.child("chat").push().setValue(chatMessage);
-                            store("chattyLastMsg", botResponse);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                            // handling error response from bot.
-//                            messageModalArrayList.add(new MessageModal("No response", BOT_KEY));
-//                            messageRVAdapter.notifyDataSetChanged();
-
-                            /*msgUser.add("bot");
-                            msgText.add("No response");*/
-                            chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
-//                            Log.d(TAG, "onPostExecute: reply: " + botResponse);
-                            Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
-
-                            initRecyclerView();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        /*msgUser.add("bot");
-                        msgText.add("Sorry no response found: " + error.toString());*/
-                        chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
-
-//                        Utils.toast(error.toString());
-//                        tabBtn.setText(error.toString());
-//                            Log.d(TAG, "onPostExecute: reply: " + botResponse);
-                        Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
-
-//                        adapter.notifyDataSetChanged();
-
-                        initRecyclerView();
-
-                        // error handling.
-//                        messageModalArrayList.add(new MessageModal("Sorry no response found", BOT_KEY));
-//                        Toast.makeText(ChattyViewerActivity.this, "No response from the bot..", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                // at last adding json object
-                // request to our queue.
-                queue.add(jsonObjectRequest);
-
-                Utils.store("msgStatus", "true");
             }
         }, 1000);
 
@@ -595,10 +711,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         @Override
         public void onBindViewHolder(@NonNull ViewHolderMessages holder, int position) {
             Log.d(TAG, "onBindViewHolder: position: " + position);
-            //holder.receivedImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.boy));
 
             if (chatMessageArrayList.get(position).getMsgUser().equals(Constants.USER_MESSAGE)) {
-//            if (msgUser.get(position).equals("user")) {
                 Log.d(TAG, "onBindViewHolder: if (msgUser.get(position).equals(\"user\")) {");
 
                 holder.rightText.setText(chatMessageArrayList.get(position).getMsgText());
@@ -620,7 +734,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         @Override
         public int getItemCount() {
             return chatMessageArrayList.size();
-//            return msgUser.size();
         }
 
         public class ViewHolderMessages extends RecyclerView.ViewHolder {
