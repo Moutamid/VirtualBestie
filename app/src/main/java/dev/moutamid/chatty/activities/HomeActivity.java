@@ -26,14 +26,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         b = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
-        if (!Utils.getBoolean(Constants.IS_LOGGED_IN, false)) {
-            //USER IS NOT LOGGED IN
-            finish();
-            startActivity(new Intent(context, MainActivity.class));
-        }
 
         b.userNameTxt.setText(Utils.getString(Constants.USER_NAME));
 
