@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -74,7 +75,7 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
     private LinearLayoutManager linearLayoutManager;
     private Handler handler;
 
-    private Button tabBtn;
+    private TextView tabBtn;
 
     private ImageView fab_img;
 
@@ -82,7 +83,7 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
     private EditText editText;
 
-    private RelativeLayout addBtn;
+    private ImageView addBtn;
     private ScrollView editTextLayout;
 
     private RequestQueue mRequestQueue;
@@ -91,19 +92,53 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
     ArrayList<ChatMessage> chatMessageArrayList =
             getArrayList(Constants.CHAT_BOT_MESSAGES, ChatMessage.class);
 
+    enum ChatBotLanguage {
+        English,
+        RomanUrdu,
+        Null;
+
+        public static ChatBotLanguage toMyEnum(String myEnumString) {
+            try {
+                return valueOf(myEnumString);
+            } catch (Exception ex) {
+                return Null;
+            }
+        }
+    }
+
+    public void saveChatBotLanguage(ChatBotLanguage myEnum) {
+        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("MyEnum", myEnum.toString());
+        editor.apply();
+    }
+
+    public ChatBotLanguage getChatBotLanguage() {
+        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        String myEnumString = sp.getString("MyEnum", ChatBotLanguage.Null.toString());
+        return ChatBotLanguage.toMyEnum(myEnumString);
+    }
+
+    ChatBotLanguage chatBotLanguage = ChatBotLanguage.English;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
 
-//        showAskDIalog();
+        if (getChatBotLanguage() == ChatBotLanguage.Null) {
+            showLanguageDialog();
+        } else {
+            toggleLanguage(getChatBotLanguage());
+//            chatBotLanguage = getChatBotLanguage();
+        }
 
         Log.d(TAG, "onCreate: msgUser: " + chatMessageArrayList.toString());
         editText = findViewById(R.id.editText);
         addBtn = findViewById(R.id.addBtn);
         editTextLayout = findViewById(R.id.edittextLayout);
         myMsgStatusImg = findViewById(R.id.myMessageStatus);
-        fab_img = findViewById(R.id.fab_img);
+//        fab_img = findViewById(R.id.fab_img);
 
         imgBoy = BitmapFactory.decodeResource(getResources(), R.drawable.boy);
 
@@ -131,7 +166,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
                 String message = editText.getText().toString().trim();
                 Log.d(TAG, "onClick: message " + message);
-                Helper.ImageViewAnimatedChange(ChattyViewerActivity.this, fab_img, sendImg);
+                Helper.ImageViewAnimatedChange(ChattyViewerActivity.this, addBtn, sendImg);
+//                Helper.ImageViewAnimatedChange(ChattyViewerActivity.this, fab_img, sendImg);
 
                 if (!message.equals("") && Helper.isOnline() && !TextUtils.isEmpty(message)) {
                     Log.d(TAG, "onClick: if (!message.equals(\"\") && Helper.isOnline() && !TextUtils.isEmpty(message)) {");
@@ -139,19 +175,28 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                     chatMessageArrayList.add(new ChatMessage(message, Constants.USER_MESSAGE));
                     initRecyclerView();
                     Log.i(TAG, "onClick: started: " + message);
-                    setMyMsgStatusImg(message);
+//                    setMyMsgStatusImg(message);
 
                     editText.setText("");
 
                     addBtn.setEnabled(false);
-                    /*handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "run: ");
-                            addBtn.setEnabled(true);
-                        }
-                    }, 3100);*/
 
+                    tabBtn.setText("Typing...");
+
+//                    myMsgStatusImg.setVisibility(View.GONE);
+//                myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
+
+                    if (editable) {
+                        retrieveAnswerFromBrain(message.toLowerCase());
+                        return;
+                    }
+
+                    if (chatBotLanguage == ChatBotLanguage.English) {
+                        queryChatBot(message);
+                        return;
+                    }
+
+                    new ConvertRomanToReal(message).execute();
 
                 } else if (message.equals("")) {
 
@@ -166,6 +211,9 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
             }
         });
+
+        findViewById(R.id.menu_btn_conversation).setOnClickListener(view -> showLanguageDialog());
+        findViewById(R.id.back_btn_conversation).setOnClickListener(view -> onBackPressed());
 
     }
 
@@ -235,9 +283,7 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-
                     try {
-
                         // in on response method we are extracting data
                         // from json response and adding this response to our array list.
                         String botResponse = response.getString("cnt");
@@ -266,7 +312,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                     Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
 
                     initRecyclerView();
-
                 }
             });
 
@@ -279,54 +324,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         }
 
         private void translateEnglishToUrdu(String sentence) {
-            //https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ur&dt=t&q=morning
-
-            /*try {
-                String encode = URLEncoder.encode(sentence.trim(), "utf-8");
-                StringBuilder sb = new StringBuilder();
-                sb.append("https://translate.googleapis.com/translate_a/single?client=gtx&sl=");
-                sb.append("en");
-                sb.append("&tl=");
-                sb.append("ur");
-                sb.append("&dt=t&q=");
-                sb.append(encode);
-
-                URL google = null;
-                google = new URL(sb.toString());
-                BufferedReader in = null;
-                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
-                String input = null;
-                StringBuffer stringBuffer = new StringBuffer();
-                while (true) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        if ((input = in != null ? in.readLine() : null) == null) break;
-                    }
-                    stringBuffer.append(input);
-                }
-                if (in != null) {
-                    in.close();
-                }
-
-                JSONArray jSONArray = new JSONArray(stringBuffer.toString()).getJSONArray(0);
-                String str2 = "";
-                for (int i = 0; i < jSONArray.length(); i++) {
-                    JSONArray jSONArray2 = jSONArray.getJSONArray(i);
-                    StringBuilder sb2 = new StringBuilder();
-                    sb2.append(str2);
-                    sb2.append(jSONArray2.get(0).toString());
-                    str2 = sb2.toString();
-                }
-                urduSentence = str2;
-
-            } catch (Exception e) {
-                Log.e("translate_api", e.getMessage());
-                Log.e("translate_api", e.getStackTrace().toString());
-                Log.e("translate_api", e.toString());
-                e.printStackTrace();
-
-//                urduSentence = sentence;
-                urduSentence = e.getMessage();
-            }*/
 
             translate_api translate = new translate_api();
             translate.setOnTranslationCompleteListener(new translate_api.OnTranslationCompleteListener() {
@@ -369,19 +366,9 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
             });
             translate.execute(sentence, "en", "ur");
 
-
-//            if (urduSentence.contains("https://www.google.com/sorry/index?continue=https://translate.googleapis")) {
-//                finish();
-//                startActivity(new Intent(ChattyViewerActivity.this, BrowserActivity.class)
-//                        .putExtra(Constants.TEXT_MESSAGES, urduSentence));
-//                return;
-//            }
-
-
         }
 
         private void translateUrduToEnglish() {
-            //https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ur&dt=t&q=morning
 
             translate_api translate = new translate_api();
             translate.setOnTranslationCompleteListener(new translate_api.OnTranslationCompleteListener() {
@@ -410,75 +397,6 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 }
             });
             translate.execute(outputSentence, "ur", "en");
-
-            /*try {
-                String encode = URLEncoder.encode(outputSentence.trim(), "utf-8");
-                StringBuilder sb = new StringBuilder();
-                sb.append("https://translate.googleapis.com/translate_a/single?client=gtx&sl=");
-                sb.append("ur");
-                sb.append("&tl=");
-                sb.append("en");
-                sb.append("&dt=t&q=");
-                sb.append(encode);
-
-                URL google = null;
-                google = new URL(sb.toString());
-                BufferedReader in = null;
-                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
-                String input = null;
-                StringBuffer stringBuffer = new StringBuffer();
-                while (true) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        if ((input = in != null ? in.readLine() : null) == null) break;
-                    }
-                    stringBuffer.append(input);
-                }
-                if (in != null) {
-                    in.close();
-                }
-
-                JSONArray jSONArray = new JSONArray(stringBuffer.toString()).getJSONArray(0);
-                String str2 = "";
-                for (int i = 0; i < jSONArray.length(); i++) {
-                    JSONArray jSONArray2 = jSONArray.getJSONArray(i);
-                    StringBuilder sb2 = new StringBuilder();
-                    sb2.append(str2);
-                    sb2.append(jSONArray2.get(0).toString());
-                    str2 = sb2.toString();
-                }
-                englishSentence = str2;
-
-                *//*HttpResponse execute = new DefaultHttpClient().execute(new HttpGet(sb.toString()));
-                StatusLine statusLine = execute.getStatusLine();
-                if (statusLine.getStatusCode() == 200) {
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    execute.getEntity().writeTo(byteArrayOutputStream);
-                    String byteArrayOutputStream2 = byteArrayOutputStream.toString();
-                    byteArrayOutputStream.close();
-                    JSONArray jSONArray = new JSONArray(byteArrayOutputStream2).getJSONArray(0);
-                    String str2 = "";
-                    for (int i = 0; i < jSONArray.length(); i++) {
-                        JSONArray jSONArray2 = jSONArray.getJSONArray(i);
-                        StringBuilder sb2 = new StringBuilder();
-                        sb2.append(str2);
-                        sb2.append(jSONArray2.get(0).toString());
-                        str2 = sb2.toString();
-                    }
-                    englishSentence = str2 ;
-                }
-                execute.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());*//*
-            } catch (Exception e) {
-                Log.e("translate_api", e.getMessage());
-//                listener.onError(e);
-                englishSentence = e.getMessage();
-//                englishSentence = outputSentence;
-            }
-            if (englishSentence.contains("https://www.google.com/sorry/index?continue=https://translate.googleapis")) {
-                finish();
-                startActivity(new Intent(ChattyViewerActivity.this, BrowserActivity.class)
-                        .putExtra(Constants.TEXT_MESSAGES, englishSentence));
-            }*/
         }
 
         private String getTransliteration(String pWord) {
@@ -555,7 +473,78 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
     }
 
-    private void showAskDIalog() {
+    private void queryChatBot(String message1) {
+        // url for our brain
+        // make sure to add mshape for uid.
+        // make sure to add your url.
+        String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[mshape]&msg=" + message1;
+//                String url = "http://api.brainshop.ai/get?bid=160533&key=HRVPYcwch6xZXykp&uid=[uid]&msg=[msg]" + message;
+
+        // creating a variable for our request queue.
+        RequestQueue queue = Volley.newRequestQueue(ChattyViewerActivity.this);
+
+        // on below line we are making a json object request for a get request and passing our url .
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    // in on response method we are extracting data
+                    // from json response and adding this response to our array list.
+                    String botResponse = response.getString("cnt");
+
+                    if (botResponse.contains("acobot.ai"))
+                        botResponse = botResponse.replace("acobot.ai", "your heart");
+
+                    Log.i(TAG, "onResponse: gotBotResponse: " + botResponse);
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+                    tabBtn.setText("Online");
+                    Log.i(TAG, "run: addedToChat");
+                    chatMessageArrayList.add(new ChatMessage(botResponse, Constants.BOT_MESSAGE));
+
+                    Log.d(TAG, "onPostExecute: reply: " + botResponse);
+                    Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                    initRecyclerView();
+
+                    store(Constants.CHAT_BOT_MESSAGES, chatMessageArrayList);
+
+                    store("chattyLastMsg", botResponse);
+
+                    addBtn.setEnabled(true);
+//                        }
+//                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
+                    Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                    initRecyclerView();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                chatMessageArrayList.add(new ChatMessage("I'm busy", Constants.BOT_MESSAGE));
+                Helper.CircleImageViewAnimatedChange(ChattyViewerActivity.this, myMsgStatusImg, imgBoy);
+
+                initRecyclerView();
+            }
+        });
+
+        // at last adding json object
+        // request to our queue.
+        queue.add(jsonObjectRequest);
+
+        Utils.store("msgStatus", "true");
+
+    }
+
+    private void showAskDialog() {
         new AlertDialog.Builder(ChattyViewerActivity.this)
                 .setTitle("Please select!")
                 .setMessage("Which Type of chatbot you are trying to chat with?")
@@ -573,6 +562,29 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 })
                 .setCancelable(false)
                 .show();
+    }
+
+    private void showLanguageDialog() {
+        new AlertDialog.Builder(ChattyViewerActivity.this)
+                .setTitle("Please select!")
+                .setMessage("Which type of language you want to use with Chatty?")
+                .setPositiveButton("English", (dialogInterface, i) ->
+                        toggleLanguage(ChatBotLanguage.English))
+                .setNegativeButton("Roman Urdu", (dialogInterface, i) ->
+                        toggleLanguage(ChatBotLanguage.RomanUrdu))
+                .setCancelable(false)
+                .show();
+    }
+
+    private void toggleLanguage(ChatBotLanguage chatBotLanguage1) {
+        TextView topName = findViewById(R.id.user_name_conversation);
+        chatBotLanguage = chatBotLanguage1;
+
+        if (chatBotLanguage1 == ChatBotLanguage.RomanUrdu)
+            topName.setText("Chatty (Urdu)");
+        else topName.setText("Chatty (English)");
+
+        saveChatBotLanguage(chatBotLanguage1);
     }
 
     private void initRecyclerView() {
@@ -622,6 +634,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
     private void setMyMsgStatusImg(String message) {
         Log.d(TAG, "setMyMsgStatusImg: ");
+        myMsgStatusImg.setVisibility(View.VISIBLE);
+
         myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_msg_not_sent));
 
         handler.postDelayed(new Runnable() {
@@ -653,16 +667,22 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                tabBtn.setText("Typing...");
+                /*tabBtn.setText("Typing...");
 
-                myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
+                myMsgStatusImg.setVisibility(View.GONE);
+//                myMsgStatusImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
 
                 if (editable) {
                     retrieveAnswerFromBrain(message.toLowerCase());
                     return;
                 }
 
-                new ConvertRomanToReal(message).execute();
+                if (chatBotLanguage == ChatBotLanguage.English){
+                    queryChatBot(message);
+                    return;
+                }
+
+                new ConvertRomanToReal(message).execute();*/
 
             }
         }, 1000);
@@ -717,16 +737,16 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
 
                 holder.rightText.setText(chatMessageArrayList.get(position).getMsgText());
 
-                holder.rightText.setVisibility(View.VISIBLE);
-                holder.leftText.setVisibility(View.GONE);
+                holder.rightTextLayout.setVisibility(View.VISIBLE);
+                holder.leftTextLayout.setVisibility(View.GONE);
 
             } else {
                 Log.d(TAG, "onBindViewHolder: } else {");
 
                 holder.leftText.setText(chatMessageArrayList.get(position).getMsgText());
 
-                holder.rightText.setVisibility(View.GONE);
-                holder.leftText.setVisibility(View.VISIBLE);
+                holder.rightTextLayout.setVisibility(View.GONE);
+                holder.leftTextLayout.setVisibility(View.VISIBLE);
             }
 
         }
@@ -739,7 +759,9 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         public class ViewHolderMessages extends RecyclerView.ViewHolder {
 
             TextView leftText, rightText;
-            LinearLayout rightTextLayout;
+            RelativeLayout rightTextLayout;
+            RelativeLayout leftTextLayout;
+//            LinearLayout rightTextLayout;
 
             public ViewHolderMessages(@NonNull View v) {
                 super(v);
@@ -747,6 +769,7 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 leftText = (TextView) v.findViewById(R.id.leftText);
                 rightText = (TextView) v.findViewById(R.id.rightText);
                 rightTextLayout = v.findViewById(R.id.rightTextLayout);
+                leftTextLayout = v.findViewById(R.id.leftTextLayout);
             }
         }
 
