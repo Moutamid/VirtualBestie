@@ -4,6 +4,9 @@
 
 [Demo Apk](https://github.com/Moutamid/VirtualBestie/blob/master/app/release/app-release.apk)
 
+## Downloads
+ * [<img src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" height="45px" />](https://play.google.com/store/apps/details?id=com.nostra13.universalimageloader.sample) [<img src="https://www.javatpoint.com/fullformpages/images/apk.png" height="45px" />](https://github.com/Moutamid/VirtualBestie/blob/master/app/release/app-release.apk)
+
 <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp3.png" width="250"/> <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp1.png" width="250"/> <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp2.png" width="250"/>
 
 <!-- ### Specifications ###
