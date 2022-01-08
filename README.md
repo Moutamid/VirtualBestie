@@ -2,6 +2,8 @@
 
 #### *Created an app to track the inventory of a store* ####
 
+[Demo Apk](https://github.com/Moutamid/VirtualBestie/blob/master/app/release/app-release.apk)
+
 <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp3.png" width="250"/> <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp1.png" width="250"/> <img src="https://github.com/HansG26/Android-Portfolio/blob/master/Screenshots/InventoryApp2.png" width="250"/>
 
 <!-- ### Specifications ###
