@@ -3,12 +3,17 @@
 #### *Created an app for entertainment* ####
 
 ## Downloads
- [<img src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" height="45px" />](https://play.google.com/store/apps/details?id=com.nostra13.universalimageloader.sample) [<img src="https://www.javatpoint.com/fullformpages/images/apk.png" height="45px" />](https://github.com/Moutamid/VirtualBestie/blob/master/app/release/app-release.apk)
+ [<img src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" height="45px" />](https://play.google.com/store/apps/details?id=moutamid.spdf.com.chatty) [<img src="https://www.javatpoint.com/fullformpages/images/apk.png" height="45px" />](https://github.com/Moutamid/VirtualBestie/raw/master/app/release/app-release.apk)
 
 ## Preview
 <img src="https://raw.githubusercontent.com/Moutamid/VirtualBestie/master/virtualbestiemockups/image1.jpeg" width="230"/> <img src="https://raw.githubusercontent.com/Moutamid/VirtualBestie/master/virtualbestiemockups/image2.jpeg" width="230"/> <img src="https://raw.githubusercontent.com/Moutamid/VirtualBestie/master/virtualbestiemockups/image3.jpeg" width="230"/> <img src="https://raw.githubusercontent.com/Moutamid/VirtualBestie/master/virtualbestiemockups/image4.jpeg" width="230"/>
 
-<img src="https://user-images.githubusercontent.com/12999622/36225792-b7044432-11c3-11e8-8e22-5bbdcafa2312.gif" width="250"/>
+<!-- <img src="https://user-images.githubusercontent.com/12999622/36225792-b7044432-11c3-11e8-8e22-5bbdcafa2312.gif" width="250"/> -->
+<video
+  style="height: 300px; width: 100%; min-width: 100%; min-height: 300px; margin-top: -50px; "
+  id="vid" autoplay muted controls loop preload="auto">
+  <source src="https://github.com/Moutamid/VirtualBestie/blob/master/virtualbestiemockups/project1.mp4" type="video/mp4">
+</video>
 
 <!-- ### Specifications ###
 
