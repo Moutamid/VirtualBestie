@@ -1,21 +1,21 @@
 package dev.moutamid.chatty.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
 import dev.moutamid.chatty.chatbot.ChattyViewerActivity;
- import dev.moutamid.chatty.databinding.ActivityHomeBinding;
 import dev.moutamid.chatty.games.GamesListActivity;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";

@@ -6,7 +6,6 @@ import static dev.moutamid.chatty.utilities.Utils.store;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,10 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -40,31 +37,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import dev.moutamid.chatty.R;
-import dev.moutamid.chatty.helper.BrowserActivity;
 import dev.moutamid.chatty.helper.Helper;
 import dev.moutamid.chatty.helper.translate_api;
 import dev.moutamid.chatty.models.ResponsesModel;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.R;
 
 public class ChattyViewerActivity extends AppCompatActivity {// implements AIListener {
     private static final String TAG = "ChattyViewerActivity";

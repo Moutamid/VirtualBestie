@@ -3,6 +3,8 @@ package dev.moutamid.chatty.utilities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,21 +13,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -36,7 +34,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import dev.moutamid.chatty.R;
+import moutamid.spdf.com.chatty.R;
 
 public class Utils {
 

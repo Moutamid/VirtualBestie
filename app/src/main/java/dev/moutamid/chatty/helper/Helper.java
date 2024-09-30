@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import dev.moutamid.chatty.R;
+import moutamid.spdf.com.chatty.R;
 
 public class Helper {
 

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.moutamid.chatty">
-    <!-- package="com.moutamid.virtualbestie"> -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".AppContext"
+        android:name="dev.moutamid.chatty.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,33 +13,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VirtualBestie">
         <activity
-            android:name=".helper.BrowserActivity"
+            android:name="dev.moutamid.chatty.helper.BrowserActivity"
             android:exported="true" />
         <activity
-            android:name=".chatbot.ChattyViewerActivity"
+            android:name="dev.moutamid.chatty.chatbot.ChattyViewerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
         <activity
-            android:name=".activities.StoriesActivity"
+            android:name="dev.moutamid.chatty.activities.StoriesActivity"
             android:exported="true" />
         <activity
-            android:name=".games.TriviaGameActivity"
+            android:name="dev.moutamid.chatty.games.TriviaGameActivity"
             android:exported="true" />
         <activity
-            android:name=".games.DifferentObjectsGameActivity"
+            android:name="dev.moutamid.chatty.games.DifferentObjectsGameActivity"
             android:exported="true" />
         <activity
-            android:name=".games.BlastBaloonsGameActivity"
+            android:name="dev.moutamid.chatty.games.BlastBaloonsGameActivity"
             android:exported="true" />
         <activity
-            android:name=".games.TicTacToeGameActivity"
+            android:name="dev.moutamid.chatty.games.TicTacToeGameActivity"
             android:exported="true" />
         <activity
-            android:name=".games.GamesListActivity"
+            android:name="dev.moutamid.chatty.games.GamesListActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.NotesActivity"
+            android:name="dev.moutamid.chatty.activities.NotesActivity"
             android:exported="true" />
-        <activity android:name=".SplashActivity"
+        <activity android:name="dev.moutamid.chatty.SplashActivity"
             android:theme="@style/SplashTheme"
             android:noHistory="true"
             android:exported="true"
@@ -52,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="dev.moutamid.chatty.activities.HomeActivity"
             android:exported="true">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,7 +59,7 @@
             </intent-filter>-->
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="dev.moutamid.chatty.activities.MainActivity"
             android:exported="true" />
 
         <uses-library

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
- import dev.moutamid.chatty.R;
+import moutamid.spdf.com.chatty.R;
 
 // This is a custom editText with notes like lines
 public class AppCompatLineEditText extends AppCompatEditText {

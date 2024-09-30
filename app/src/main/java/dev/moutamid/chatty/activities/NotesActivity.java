@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 import dev.moutamid.chatty.AppCompatLineEditText;
-import dev.moutamid.chatty.R;
 import dev.moutamid.chatty.helper.Helper;
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.R;
 
 import java.util.ArrayList;
 

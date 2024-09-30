@@ -1,7 +1,5 @@
 package dev.moutamid.chatty.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
- import dev.moutamid.chatty.R;
-// import dev.moutamid.chatty.databinding.ActivityStoriesBinding;
-import dev.moutamid.chatty.databinding.ActivityStoriesBinding;
+import androidx.appcompat.app.AppCompatActivity;
+
 import dev.moutamid.chatty.utilities.Constants;
+import moutamid.spdf.com.chatty.R;
+import moutamid.spdf.com.chatty.databinding.ActivityStoriesBinding;
 
 public class StoriesActivity extends AppCompatActivity {
     private static final String TAG = "StoriesActivity";

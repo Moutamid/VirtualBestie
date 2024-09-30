@@ -1,17 +1,17 @@
 package dev.moutamid.chatty.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
- import dev.moutamid.chatty.databinding.ActivityBlastBaloonsGameBinding;
 
 import dev.moutamid.chatty.utilities.Blastview;
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.databinding.ActivityBlastBaloonsGameBinding;
 
 public class BlastBaloonsGameActivity extends AppCompatActivity {
 

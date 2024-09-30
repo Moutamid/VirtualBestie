@@ -1,13 +1,14 @@
 package dev.moutamid.chatty.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
- import dev.moutamid.chatty.databinding.ActivityDifferentObjectsGameBinding;
+
+import moutamid.spdf.com.chatty.databinding.ActivityDifferentObjectsGameBinding;
 
 public class DifferentObjectsGameActivity extends AppCompatActivity {
 

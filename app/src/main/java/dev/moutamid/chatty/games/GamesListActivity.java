@@ -1,15 +1,18 @@
 package dev.moutamid.chatty.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 
- import dev.moutamid.chatty.databinding.ActivityGamesListBinding;
+import androidx.appcompat.app.AppCompatActivity;
+
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.R;
+import moutamid.spdf.com.chatty.databinding.ActivityGamesListBinding;
 
 public class GamesListActivity extends AppCompatActivity {
     private static final String TAG = "GamesListActivity";
@@ -22,6 +25,22 @@ public class GamesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = ActivityGamesListBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
+
+        b.firstLayout.setStartColor(R.color.gradientViolet)
+                .setEndColor(R.color.gradientOrange)
+                .setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+
+        b.secondLayout.setStartColor(R.color.lightYelllow)
+                .setEndColor(R.color.orangee)
+                .setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+
+        b.thirdLayout.setStartColor(R.color.pinkee)
+                .setEndColor(R.color.otherOrangeeee)
+                .setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+
+        b.forthLayout.setStartColor(R.color.magentaaaa)
+                .setEndColor(R.color.blueeee)
+                .setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
 
         AudioManager am =
                 (AudioManager) getSystemService(Context.AUDIO_SERVICE);

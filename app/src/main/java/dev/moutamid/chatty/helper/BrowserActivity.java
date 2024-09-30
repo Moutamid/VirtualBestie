@@ -1,15 +1,15 @@
 package dev.moutamid.chatty.helper;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import dev.moutamid.chatty.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import dev.moutamid.chatty.chatbot.ChattyViewerActivity;
 import dev.moutamid.chatty.utilities.Constants;
+import moutamid.spdf.com.chatty.R;
 
 public class BrowserActivity extends AppCompatActivity {
 

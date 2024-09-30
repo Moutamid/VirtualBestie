@@ -1,7 +1,5 @@
 package dev.moutamid.chatty.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.button.MaterialButton;
- import dev.moutamid.chatty.R;
+
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.R;
 
 public class TicTacToeGameActivity extends AppCompatActivity {
     private static final String TAG = "TicTacToeGameActivity";
@@ -85,7 +86,7 @@ public class TicTacToeGameActivity extends AppCompatActivity {
 
             timesTapped++;
 
-            if (timesTapped == 9){
+            if (timesTapped == 9) {
                 showFinalWinningLayout("Nobody Won!");
                 return;
             }
@@ -106,7 +107,7 @@ public class TicTacToeGameActivity extends AppCompatActivity {
 
     private void getRandomTag() {
         int tappedCounter = Integer.parseInt(Utils.getRandomNmbr(9));
-        Log.d(TAG, "getRandomTag: "+tappedCounter);
+        Log.d(TAG, "getRandomTag: " + tappedCounter);
         if (gameState[tappedCounter] == 2 && activeGame) {
             computerTag = tappedCounter;
         } else {

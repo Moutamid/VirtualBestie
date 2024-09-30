@@ -1,7 +1,5 @@
 package dev.moutamid.chatty.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,17 +9,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
- import dev.moutamid.chatty.R;
- import dev.moutamid.chatty.databinding.ActivityTriviaGameBinding;
-import dev.moutamid.chatty.models.Quiz;
-import dev.moutamid.chatty.utilities.Constants;
-import dev.moutamid.chatty.utilities.Utils;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import dev.moutamid.chatty.models.Quiz;
+import dev.moutamid.chatty.utilities.Constants;
+import dev.moutamid.chatty.utilities.Utils;
 import link.fls.swipestack.SwipeStack;
+import moutamid.spdf.com.chatty.R;
+import moutamid.spdf.com.chatty.databinding.ActivityTriviaGameBinding;
 
 public class TriviaGameActivity extends AppCompatActivity {
     private static final String TAG = "TriviaGameActivity";

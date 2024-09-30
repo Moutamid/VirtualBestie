@@ -1,4 +1,19 @@
-package dev.moutamid.chatty.utilities;
+/*
+ * Copyright (C) 2015 tyrantgit
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dev.moutamid.chatty.libraries.explosionfield.src.main.java.tyrantgit.explosionfield;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,22 +33,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Blastview extends View {
 
-    private List<BlastAnimator> mExplosions = new ArrayList<>();
+public class ExplosionField extends View {
+
+    private List<ExplosionAnimator> mExplosions = new ArrayList<>();
     private int[] mExpandInset = new int[2];
 
-    public Blastview(Context context) {
+    public ExplosionField(Context context) {
         super(context);
         init();
     }
 
-    public Blastview(Context context, AttributeSet attrs) {
+    public ExplosionField(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public Blastview(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ExplosionField(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -45,7 +61,7 @@ public class Blastview extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (BlastAnimator explosion : mExplosions) {
+        for (ExplosionAnimator explosion : mExplosions) {
             explosion.draw(canvas);
         }
     }
@@ -56,7 +72,7 @@ public class Blastview extends View {
     }
 
     public void explode(Bitmap bitmap, Rect bound, long startDelay, long duration) {
-        final BlastAnimator explosion = new BlastAnimator(this, bitmap, bound);
+        final ExplosionAnimator explosion = new ExplosionAnimator(this, bitmap, bound);
         explosion.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -91,7 +107,7 @@ public class Blastview extends View {
         });
         animator.start();
         view.animate().setDuration(150).setStartDelay(startDelay).scaleX(0f).scaleY(0f).alpha(0f).start();
-        explode(Utils.createBitmapFromView(view), r, startDelay, BlastAnimator.DEFAULT_DURATION);
+        explode(Utils.createBitmapFromView(view), r, startDelay, ExplosionAnimator.DEFAULT_DURATION);
     }
 
     public void clear() {
@@ -99,12 +115,12 @@ public class Blastview extends View {
         invalidate();
     }
 
-    public static Blastview attach2Window(Activity activity) {
+    public static ExplosionField attach2Window(Activity activity) {
         ViewGroup rootView = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
-        Blastview blastview = new Blastview(activity);
-        rootView.addView(blastview, new ViewGroup.LayoutParams(
+        ExplosionField explosionField = new ExplosionField(activity);
+        rootView.addView(explosionField, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return blastview;
+        return explosionField;
     }
 
 }

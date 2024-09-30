@@ -1,15 +1,15 @@
 package dev.moutamid.chatty.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
- import dev.moutamid.chatty.databinding.ActivityMainBinding;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import dev.moutamid.chatty.utilities.Constants;
 import dev.moutamid.chatty.utilities.Utils;
+import moutamid.spdf.com.chatty.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
