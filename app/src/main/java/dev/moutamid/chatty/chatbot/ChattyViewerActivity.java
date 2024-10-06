@@ -115,12 +115,14 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
 
-        if (getChatBotLanguage() == ChatBotLanguage.Null) {
+        toggleLanguage(ChatBotLanguage.English);
+
+       /* if (getChatBotLanguage() == ChatBotLanguage.Null) {
             showLanguageDialog();
         } else {
             toggleLanguage(getChatBotLanguage());
 //            chatBotLanguage = getChatBotLanguage();
-        }
+        }*/
 
         Log.d(TAG, "onCreate: msgUser: " + chatMessageArrayList.toString());
         editText = findViewById(R.id.editText);
@@ -201,7 +203,7 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
             }
         });
 
-        findViewById(R.id.menu_btn_conversation).setOnClickListener(view -> showLanguageDialog());
+//        findViewById(R.id.menu_btn_conversation).setOnClickListener(view -> showLanguageDialog());
         findViewById(R.id.back_btn_conversation).setOnClickListener(view -> onBackPressed());
 
     }
@@ -558,7 +560,8 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
                 .setTitle("Please select!")
                 .setMessage("Which type of language you want to use with Chatty?")
                 .setPositiveButton("English", (dialogInterface, i) ->
-                        toggleLanguage(ChatBotLanguage.English))
+                        toggleLanguage(ChatBotLanguage.English)
+                )
                 .setNegativeButton("Roman Urdu", (dialogInterface, i) ->
                         toggleLanguage(ChatBotLanguage.RomanUrdu))
                 .setCancelable(false)

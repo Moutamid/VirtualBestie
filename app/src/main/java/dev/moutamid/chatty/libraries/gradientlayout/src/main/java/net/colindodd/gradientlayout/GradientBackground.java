@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 
+import moutamid.spdf.com.chatty.R;
+
 public class GradientBackground {
 
     private int startColor;
