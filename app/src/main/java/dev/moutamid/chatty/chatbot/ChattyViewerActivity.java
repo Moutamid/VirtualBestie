@@ -115,6 +115,9 @@ public class ChattyViewerActivity extends AppCompatActivity {// implements AILis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatty_viewer);
 
+        finish();
+        Toast.makeText(this, "Coming soon!", Toast.LENGTH_SHORT).show();
+
         toggleLanguage(ChatBotLanguage.English);
 
        /* if (getChatBotLanguage() == ChatBotLanguage.Null) {
